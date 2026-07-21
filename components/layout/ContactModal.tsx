@@ -7,7 +7,8 @@ import { SmartImage } from "@/components/ui/SmartImage";
 import { SocialIcon, type SocialPlatform } from "@/components/ui/SocialIcons";
 import { CRM_CONSENT_TEXT } from "@/lib/crm";
 import { agent } from "@/data/agent";
-import { cn, isPlaceholder, telHref } from "@/lib/utils";
+import { isPlaceholder, telHref } from "@/lib/utils";
+import { fieldLabelClass, fieldInputClass, fieldTextareaClass, submitButtonClass, submitArrowClass } from "@/components/ui/form-styles";
 
 const socialLinks: { platform: SocialPlatform; href: string }[] = [
   { platform: "facebook", href: agent.social.facebook },
@@ -114,8 +115,15 @@ export function ContactModal({ isOpen, onClose }: { isOpen: boolean; onClose: ()
               transition={{ duration: 0.5, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
               className="flex-1 text-white"
             >
-              <p className="font-nav text-xs uppercase tracking-[0.4em] text-kw-red">Let&apos;s Connect</p>
-              <h2 className="font-nav mt-3 text-4xl uppercase tracking-widest sm:text-5xl">Get In Touch</h2>
+              <div className="flex items-center gap-4">
+                <span className="relative block h-16 w-16 shrink-0 overflow-hidden rounded-full ring-2 ring-kw-red ring-offset-4 ring-offset-black sm:h-20 sm:w-20">
+                  <SmartImage src={agent.headshot} alt={agent.name} label="Agent" />
+                </span>
+                <div>
+                  <p className="font-nav text-xs uppercase tracking-[0.4em] text-kw-red">Let&apos;s Connect</p>
+                  <h2 className="font-nav mt-1 text-3xl uppercase tracking-widest sm:text-4xl">Get In Touch</h2>
+                </div>
+              </div>
 
               <div className="mt-8 space-y-1.5 text-sm text-gray-300">
                 <p className="text-base font-semibold text-white">{agent.name}</p>
@@ -163,66 +171,31 @@ export function ContactModal({ isOpen, onClose }: { isOpen: boolean; onClose: ()
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-5">
                   <div className="grid gap-5 sm:grid-cols-2">
-                    <div>
-                      <label className="mb-1.5 block text-xs font-semibold uppercase tracking-widest text-gray-500">
-                        Name
-                      </label>
-                      <input
-                        name="name"
-                        required
-                        placeholder="Enter your full name"
-                        className="w-full rounded-full bg-gray-100 px-5 py-3 text-sm text-black placeholder:text-gray-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-kw-red"
-                      />
+                    <div className="group">
+                      <label className={fieldLabelClass}>Name</label>
+                      <input name="name" required placeholder="Enter your full name" className={fieldInputClass} />
                     </div>
-                    <div>
-                      <label className="mb-1.5 block text-xs font-semibold uppercase tracking-widest text-gray-500">
-                        Phone
-                      </label>
-                      <input
-                        name="phone"
-                        type="tel"
-                        placeholder="Your phone"
-                        className="w-full rounded-full bg-gray-100 px-5 py-3 text-sm text-black placeholder:text-gray-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-kw-red"
-                      />
+                    <div className="group">
+                      <label className={fieldLabelClass}>Phone</label>
+                      <input name="phone" type="tel" placeholder="Your phone" className={fieldInputClass} />
                     </div>
                   </div>
-                  <div>
-                    <label className="mb-1.5 block text-xs font-semibold uppercase tracking-widest text-gray-500">
-                      Email
-                    </label>
-                    <input
-                      name="email"
-                      type="email"
-                      required
-                      placeholder="you@email.com"
-                      className="w-full rounded-full bg-gray-100 px-5 py-3 text-sm text-black placeholder:text-gray-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-kw-red"
-                    />
+                  <div className="group">
+                    <label className={fieldLabelClass}>Email</label>
+                    <input name="email" type="email" required placeholder="you@email.com" className={fieldInputClass} />
                   </div>
-                  <div>
-                    <label className="mb-1.5 block text-xs font-semibold uppercase tracking-widest text-gray-500">
-                      Your Message
-                    </label>
-                    <textarea
-                      name="message"
-                      rows={4}
-                      placeholder="Type your message"
-                      className="w-full rounded-3xl bg-gray-100 px-5 py-3 text-sm text-black placeholder:text-gray-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-kw-red"
-                    />
+                  <div className="group">
+                    <label className={fieldLabelClass}>Your Message</label>
+                    <textarea name="message" rows={4} placeholder="Type your message" className={fieldTextareaClass} />
                   </div>
-                  <label className="flex items-start gap-3 text-xs text-gray-500">
-                    <input type="checkbox" name="consent" required className="mt-1" />
+                  <label className="flex cursor-pointer items-start gap-3 text-xs text-gray-500">
+                    <input type="checkbox" name="consent" required className="mt-1 accent-kw-red" />
                     <span>{CRM_CONSENT_TEXT}</span>
                   </label>
                   {error && <p className="text-sm text-kw-red">{error}</p>}
-                  <button
-                    type="submit"
-                    disabled={status === "submitting"}
-                    className={cn(
-                      "group/send inline-flex items-center gap-3 rounded-full bg-black px-8 py-4 font-nav text-sm font-semibold uppercase tracking-widest text-white transition-colors hover:bg-kw-red disabled:opacity-60"
-                    )}
-                  >
+                  <button type="submit" disabled={status === "submitting"} className={submitButtonClass}>
                     {status === "submitting" ? "Sending..." : "Send Message"}
-                    <span aria-hidden className="inline-block h-px w-8 bg-white transition-transform duration-300 group-hover/send:translate-x-1" />
+                    <span aria-hidden className={submitArrowClass} />
                   </button>
                 </form>
               )}
