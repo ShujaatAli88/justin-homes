@@ -126,3 +126,28 @@ h6 {
 .animate-marquee {
   animation: marquee-scroll 64s linear infinite;
 }
+
+/* Flows left-to-right — deliberately opposite the marquee icons above, which
+   scroll right-to-left. Wide, soft, and low-contrast on purpose: one gentle
+   highlight drifting past rather than a busy repeating stripe. */
+@keyframes gradient-flow {
+  from {
+    background-position-x: 0;
+  }
+  to {
+    background-position-x: 900px;
+  }
+}
+
+.animate-gradient-flow {
+  background-image: repeating-linear-gradient(
+    90deg,
+    #0a0a0a 0px,
+    #0a0a0a 350px,
+    rgba(206, 1, 31, 0.16) 450px,
+    #0a0a0a 550px,
+    #0a0a0a 900px
+  );
+  background-size: 900px 100%;
+  animation: gradient-flow 12s linear infinite;
+}

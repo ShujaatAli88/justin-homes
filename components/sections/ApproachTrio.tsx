@@ -46,33 +46,35 @@ export function ApproachTrio() {
             <motion.div
               key={item.title}
               variants={fadeInUp}
-              className="group flex h-full flex-col bg-black shadow-md transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl"
+              className="group relative flex h-full flex-col bg-black shadow-md transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_30px_60px_-15px_rgba(206,1,31,0.4)]"
             >
               <div className="relative aspect-[4/5] w-full overflow-hidden">
                 <SmartImage
                   src={item.image}
                   alt={item.title}
                   label={`${item.title} photo`}
-                  className="transition-transform duration-700 ease-out group-hover:scale-110"
+                  className="grayscale-[60%] transition-all duration-700 ease-out group-hover:scale-110 group-hover:grayscale-0"
                 />
                 <div
                   aria-hidden
                   className="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent opacity-80 transition-opacity duration-500 group-hover:opacity-95"
                 />
-                <span
-                  aria-hidden
-                  className="font-nav absolute right-4 top-4 text-4xl text-white/25 transition-colors duration-500 group-hover:text-kw-red/60"
-                >
+
+                <span className="font-nav absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-full border border-white/25 bg-black/30 text-sm text-white/70 backdrop-blur-sm transition-all duration-500 group-hover:border-kw-red group-hover:bg-kw-red/90 group-hover:text-white">
                   {item.index}
                 </span>
+
                 <div className="absolute inset-x-0 bottom-0 p-6">
-                  <span aria-hidden className="mb-3 block h-px w-10 bg-kw-red" />
+                  <span
+                    aria-hidden
+                    className="mb-3 block h-px w-10 bg-kw-red transition-all duration-500 group-hover:w-16"
+                  />
                   <h3 className="font-nav text-lg uppercase leading-snug tracking-wide text-white sm:text-xl">
                     {item.title}
                   </h3>
                 </div>
               </div>
-              <div className="flex flex-1 flex-col border-t-2 border-kw-red bg-white p-6">
+              <div className="flex flex-1 flex-col border-t-2 border-kw-red bg-white p-6 transition-colors duration-500 group-hover:bg-gray-50">
                 <p className="text-sm leading-relaxed text-gray-600">{item.blurb}</p>
               </div>
             </motion.div>
@@ -97,12 +99,7 @@ export function ApproachTrio() {
             <h3 className="mx-auto mt-3 max-w-xl text-2xl font-bold text-white sm:text-3xl">
               Find out in minutes &mdash; no obligation, no guesswork.
             </h3>
-            <Button
-              href="/home-valuation"
-              variant="primary"
-              size="lg"
-              className="group/cta mt-8"
-            >
+            <Button href="/home-valuation" variant="primary" size="lg" className="group/cta mt-8">
               Get Your Home Valuation
               <span aria-hidden className="inline-block transition-transform duration-300 group-hover/cta:translate-x-1">
                 &rarr;

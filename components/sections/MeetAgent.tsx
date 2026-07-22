@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { SmartImage } from "@/components/ui/SmartImage";
 import { Button } from "@/components/ui/Button";
@@ -16,13 +17,53 @@ const socialLinks: { platform: SocialPlatform; href: string }[] = [
 ];
 
 export function MeetAgent() {
+  const sectionRef = useRef<HTMLElement>(null);
   const bioParagraphs = isPlaceholder(agent.bio)
     ? ["{{CADENHEAD_BIO}}"]
     : agent.bio.split("\n\n").filter(Boolean);
 
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    function handleMove(e: MouseEvent) {
+      const rect = section!.getBoundingClientRect();
+      section!.style.setProperty("--spot-x", `${e.clientX - rect.left}px`);
+      section!.style.setProperty("--spot-y", `${e.clientY - rect.top}px`);
+    }
+
+    section.addEventListener("mousemove", handleMove);
+    return () => section.removeEventListener("mousemove", handleMove);
+  }, []);
+
   return (
-    <section className="overflow-hidden bg-gray-50 py-20 sm:py-28">
-      <div className="container-xl grid gap-16 lg:grid-cols-2 lg:items-center">
+    <section
+      ref={sectionRef}
+      className="relative overflow-hidden bg-gray-50 py-20 sm:py-28"
+      style={{ ["--spot-x" as string]: "50%", ["--spot-y" as string]: "20%" }}
+    >
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 opacity-40 transition-[background] duration-300"
+        style={{
+          backgroundImage: "radial-gradient(circle, rgba(10,10,10,0.12) 1px, transparent 1px)",
+          backgroundSize: "28px 28px",
+          maskImage:
+            "radial-gradient(420px circle at var(--spot-x) var(--spot-y), black, transparent 75%)",
+          WebkitMaskImage:
+            "radial-gradient(420px circle at var(--spot-x) var(--spot-y), black, transparent 75%)",
+        }}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 transition-[background] duration-300"
+        style={{
+          background:
+            "radial-gradient(500px circle at var(--spot-x) var(--spot-y), rgba(206,1,31,0.1), transparent 70%)",
+        }}
+      />
+
+      <div className="container-xl relative grid gap-16 lg:grid-cols-2 lg:items-center">
         <motion.div
           initial="hidden"
           whileInView="visible"

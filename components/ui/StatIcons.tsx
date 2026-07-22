@@ -1,5 +1,12 @@
 export type StatIconType = "bed" | "bath" | "sqft" | "acres";
 
+export const statTint: Record<StatIconType, { bg: string; ring: string; icon: string }> = {
+  bed: { bg: "bg-rose-50", ring: "ring-rose-100", icon: "text-kw-red" },
+  bath: { bg: "bg-sky-50", ring: "ring-sky-100", icon: "text-sky-600" },
+  sqft: { bg: "bg-amber-50", ring: "ring-amber-100", icon: "text-amber-600" },
+  acres: { bg: "bg-emerald-50", ring: "ring-emerald-100", icon: "text-emerald-600" },
+};
+
 export function StatIcon({ type, className = "h-4 w-4" }: { type: StatIconType; className?: string }) {
   if (type === "bed") {
     return (

@@ -10,7 +10,7 @@ const variantClasses: Record<Variant, string> = {
   secondary: "bg-black text-white hover:bg-gray-800",
   outline: "border border-white text-white hover:bg-white hover:text-black",
   ghost: "border border-black text-black hover:bg-black hover:text-white",
-  pill: "rounded-full bg-white text-black hover:bg-gray-100",
+  pill: "rounded-full bg-white text-black hover:bg-kw-red hover:text-white",
   pillOutline: "rounded-full border border-white text-white hover:bg-white hover:text-black",
 };
 

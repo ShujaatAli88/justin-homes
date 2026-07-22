@@ -3,17 +3,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SmartImage } from "@/components/ui/SmartImage";
 import { ContactTriggerButton } from "@/components/ui/ContactTriggerButton";
-import { StatIcon, type StatIconType } from "@/components/ui/StatIcons";
+import { StatIcon, statTint, type StatIconType } from "@/components/ui/StatIcons";
 import { idxProvider } from "@/lib/idx";
 import { formatPrice, telHref } from "@/lib/utils";
 import { agent } from "@/data/agent";
-
-const statTint: Record<StatIconType, { bg: string; ring: string; icon: string }> = {
-  bed: { bg: "bg-rose-50", ring: "ring-rose-100", icon: "text-kw-red" },
-  bath: { bg: "bg-sky-50", ring: "ring-sky-100", icon: "text-sky-600" },
-  sqft: { bg: "bg-amber-50", ring: "ring-amber-100", icon: "text-amber-600" },
-  acres: { bg: "bg-emerald-50", ring: "ring-emerald-100", icon: "text-emerald-600" },
-};
 
 function StatTile({ type, value, label }: { type: StatIconType; value: string; label: string }) {
   const tint = statTint[type];
