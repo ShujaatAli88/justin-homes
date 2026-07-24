@@ -123,12 +123,24 @@ mobile, since the widget's controls stack vertically there) and lets the
 iframe's own internal scrollbar handle any overflow — deliberately not a
 fixed aspect-ratio box, which would clip the search/listing UI.
 
-**Domain restriction — read before "fixing" a blank embed:** NTREIS Matrix
-locks these widgets to the approved production domain
-(`cadenheadrealty.com`). On `localhost` or any preview/staging domain the
-iframe will render blank — that's expected, not a bug. Final visual
-verification (does it render, is it sized well, does mobile look right) can
-only happen once the site is live on the approved domain.
+**Domain restriction — read before "fixing" a 403 in the embed:** NTREIS
+Matrix locks these widgets to a whitelisted domain. On `localhost` or any
+preview/staging domain, the iframe loads a real `403 Forbidden` response
+from NTREIS (not a blank frame) — that's expected, not a bug in this app.
+
+**Confirmed 2026-07: still 403 on `cadenheadrealty.com` itself.** After
+deploying this integration to production (Vercel auto-deploy on push to
+`main`), `cadenheadrealty.com/properties` still shows `403 Forbidden` inside
+the embed. Since the deploy pipeline and the code are both confirmed
+working (the page renders, the iframe src is correct), this rules out
+everything on the app side — the remaining cause is that NTREIS hasn't
+whitelisted `cadenheadrealty.com` for `idx=44844573` / `idx=64914572` yet.
+**This requires the client (or their MLS/NTREIS Matrix admin) to contact
+NTREIS/MLS support** to confirm the domain is approved for both display
+IDs — it's account-level config on NTREIS's side, not fixable from this
+codebase. Worth double-checking whether it's whitelisted as
+`cadenheadrealty.com` vs `www.cadenheadrealty.com` specifically, since some
+IDX systems treat those as distinct domains.
 
 Since there's no structured per-listing data anymore (just the embed), there
 is no `/properties/[slug]` detail page — clicking into a specific listing

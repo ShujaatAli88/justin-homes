@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { IDXEmbed } from "@/components/IDXEmbed";
-import { SectionEyebrow } from "@/components/ui/Card";
 
 // NTREIS Matrix IDX "Map Search" embed (idx=64914572) — live, map-based MLS
 // search served cross-domain from the client's MLS; content auto-updates on
@@ -16,21 +15,53 @@ export const metadata: Metadata = {
 
 export default function HomeSearchPage() {
   return (
-    <div className="bg-white pb-24 pt-32 sm:pt-40">
-      <div className="container-xl">
-        <div className="max-w-2xl">
-          <SectionEyebrow>Home Search</SectionEyebrow>
-          <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">Find Your Next Home</h1>
-          <p className="mt-4 text-base text-gray-600 sm:text-lg">
+    <>
+      {/* Black header band (matches every other page's hero) so the fixed
+          navbar's transparent/white-text state stays legible at scroll 0 —
+          a light bg here would make the nav invisible until scrolled. */}
+      <div className="relative overflow-hidden bg-black pb-14 pt-32 sm:pb-16 sm:pt-40">
+        <div
+          aria-hidden
+          className="absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(206,1,31,0.22)_0%,transparent_45%),radial-gradient(circle_at_85%_80%,rgba(206,1,31,0.15)_0%,transparent_45%)]"
+        />
+        <div className="container-xl relative max-w-2xl">
+          <p className="font-nav text-xs uppercase tracking-[0.3em] text-kw-red">Home Search</p>
+          <h1 className="mt-4 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+            Find Your Next Home
+          </h1>
+          <p className="mt-4 text-base text-gray-300 sm:text-lg">
             Search live, active listings across Brownwood, Early, and the surrounding area directly
             on the map below &mdash; powered by our MLS, updated in real time.
           </p>
         </div>
+      </div>
 
-        <div className="mt-12 border-t-4 border-kw-red bg-gray-50 shadow-sm">
-          <IDXEmbed idx={MAP_SEARCH_IDX} title="Map-Based Home Search — Cadenhead Realty Group" minHeight={900} />
+      <div className="bg-white py-16 sm:py-20">
+        <div className="container-xl">
+          <div className="relative overflow-hidden rounded-2xl border border-gray-100 bg-gray-50 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.25)]">
+            <div className="flex items-center justify-between border-b border-gray-200 bg-white px-5 py-3">
+              <div className="flex items-center gap-1.5">
+                <span className="h-2.5 w-2.5 rounded-full bg-gray-200" />
+                <span className="h-2.5 w-2.5 rounded-full bg-gray-200" />
+                <span className="h-2.5 w-2.5 rounded-full bg-kw-red" />
+              </div>
+              <div className="flex items-center gap-2 text-[0.65rem] font-semibold uppercase tracking-widest text-gray-500">
+                <span className="relative flex h-1.5 w-1.5">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-kw-red opacity-75" />
+                  <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-kw-red" />
+                </span>
+                Live Map Search
+              </div>
+            </div>
+
+            <IDXEmbed idx={MAP_SEARCH_IDX} title="Map-Based Home Search — Cadenhead Realty Group" minHeight={900} />
+          </div>
+
+          <p className="mt-6 text-center text-xs uppercase tracking-widest text-gray-400">
+            Powered directly by NTREIS MLS &mdash; updates automatically, no manual refresh needed.
+          </p>
         </div>
       </div>
-    </div>
+    </>
   );
 }
