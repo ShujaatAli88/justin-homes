@@ -6,8 +6,7 @@ const siteUrl = "https://cadenheadrealty.com";
 /**
  * TODO: extend this list as each remaining page in the site map (§6 of the
  * build brief) is implemented — /home-search/listings, /neighborhoods
- * (+ [slug]), /about, /testimonials, /vlog, /buyers, /sellers, /blog
- * (+ [slug]), /contact.
+ * (+ [slug]), /testimonials, /vlog, /buyers, /sellers, /blog (+ [slug]).
  */
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
@@ -30,6 +29,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.8,
+    },
+    {
+      url: `${siteUrl}/about`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${siteUrl}/reviews`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.6,
     },
     ...listings.map((listing) => ({
       url: `${siteUrl}/properties/${listing.slug}`,

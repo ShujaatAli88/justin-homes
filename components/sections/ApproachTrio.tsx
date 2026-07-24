@@ -53,7 +53,7 @@ export function ApproachTrio() {
                   src={item.image}
                   alt={item.title}
                   label={`${item.title} photo`}
-                  className="grayscale-[60%] transition-all duration-700 ease-out group-hover:scale-110 group-hover:grayscale-0"
+                  className="transition-transform duration-700 ease-out group-hover:scale-110"
                 />
                 <div
                   aria-hidden

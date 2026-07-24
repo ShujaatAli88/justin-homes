@@ -129,7 +129,7 @@ export function MeetAgent() {
 
           <motion.div variants={fadeInUp}>
             <Button href="/about" variant="secondary" className="group/cta mt-9 gap-4 rounded-full">
-              Learn More About My Approach
+              Meet the Team
               <span aria-hidden className="inline-block transition-transform duration-300 group-hover/cta:translate-x-1">
                 &rarr;
               </span>

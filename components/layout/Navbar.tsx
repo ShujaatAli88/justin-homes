@@ -83,6 +83,16 @@ export function Navbar() {
             </a>
           </div>
 
+          <Link
+            href="/reviews"
+            className="flex items-center gap-1.5 rounded-full border border-kw-red/40 bg-kw-red/10 px-4 py-2.5 font-nav text-xs font-semibold uppercase tracking-widest text-kw-red transition-all duration-300 hover:scale-105 hover:bg-kw-red hover:text-white"
+          >
+            <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="currentColor">
+              <path d="M12 2.5l3.09 6.26 6.91.99-5 4.87 1.18 6.88L12 17.77l-6.18 3.73L7 14.62l-5-4.87 6.91-.99L12 2.5z" />
+            </svg>
+            Reviews
+          </Link>
+
           <button
             type="button"
             onClick={openContactModal}

@@ -99,10 +99,20 @@ export function MobileMenu() {
                   {ctaLink.label}
                 </button>
               </motion.div>
-              <motion.div variants={fadeInUp} className="pt-6">
+              <motion.div variants={fadeInUp} className="flex items-center gap-5 pt-6">
                 <a href={telHref(agent.phone)} className="font-nav text-sm font-semibold tracking-widest text-kw-red">
                   {agent.phone}
                 </a>
+                <Link
+                  href="/reviews"
+                  onClick={() => setOpen(false)}
+                  className="flex items-center gap-1.5 rounded-full border border-kw-red/40 px-3 py-1.5 font-nav text-xs font-semibold uppercase tracking-widest text-kw-red"
+                >
+                  <svg viewBox="0 0 24 24" className="h-3 w-3" fill="currentColor">
+                    <path d="M12 2.5l3.09 6.26 6.91.99-5 4.87 1.18 6.88L12 17.77l-6.18 3.73L7 14.62l-5-4.87 6.91-.99L12 2.5z" />
+                  </svg>
+                  Reviews
+                </Link>
               </motion.div>
             </motion.nav>
           </motion.div>

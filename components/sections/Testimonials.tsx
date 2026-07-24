@@ -1,15 +1,39 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { SectionEyebrow } from "@/components/ui/Card";
 import { SmartImage } from "@/components/ui/SmartImage";
 import { fadeInUp, viewportOnce } from "@/lib/motion";
-import { testimonials } from "@/data/testimonials";
+import { testimonials as seedTestimonials, type Testimonial } from "@/data/testimonials";
 import { agent } from "@/data/agent";
+import { getSupabaseBrowserClient } from "@/lib/supabase/browser";
 
 const AUTO_ADVANCE_MS = 7000;
 const LONG_QUOTE_THRESHOLD = 320;
+
+interface ReviewRow {
+  id: string;
+  author: string;
+  role: string | null;
+  location: string | null;
+  rating: number;
+  quote: string;
+  created_at: string;
+}
+
+function mapReviewRow(row: ReviewRow): Testimonial {
+  return {
+    id: `db-${row.id}`,
+    quote: row.quote,
+    author: row.author,
+    role: row.role ?? "Verified Client",
+    location: row.location ?? "",
+    date: new Date(row.created_at).toLocaleDateString("en-US", { month: "short", year: "numeric" }),
+    rating: row.rating,
+  };
+}
 
 function StarRow({ rating, className }: { rating: number; className?: string }) {
   return (
@@ -43,9 +67,13 @@ function ArrowButton({ direction, onClick }: { direction: "prev" | "next"; onCli
 export function Testimonials() {
   const [index, setIndex] = useState(0);
   const [expanded, setExpanded] = useState(false);
-  const total = testimonials.length;
-  const current = testimonials[index];
-  const avgRating = testimonials.reduce((sum, t) => sum + t.rating, 0) / total;
+  const [liveReviews, setLiveReviews] = useState<Testimonial[]>([]);
+  const [justArrivedId, setJustArrivedId] = useState<string | null>(null);
+
+  const all = useMemo(() => [...liveReviews, ...seedTestimonials], [liveReviews]);
+  const total = all.length;
+  const current = all[index];
+  const avgRating = all.reduce((sum, t) => sum + t.rating, 0) / total;
   const isLong = current.quote.length > LONG_QUOTE_THRESHOLD;
   const initial = current.author.trim().charAt(0).toUpperCase();
 
@@ -59,6 +87,47 @@ export function Testimonials() {
     }, AUTO_ADVANCE_MS);
     return () => clearInterval(id);
   }, [index, total]);
+
+  // Live reviews: fetch existing approved reviews once, then subscribe so
+  // any review submitted via /reviews appears here instantly — no refresh,
+  // no redeploy — for anyone already viewing the page.
+  useEffect(() => {
+    const supabase = getSupabaseBrowserClient();
+    if (!supabase) return;
+
+    let active = true;
+
+    supabase
+      .from("reviews")
+      .select("id, author, role, location, rating, quote, created_at")
+      .eq("is_approved", true)
+      .order("created_at", { ascending: false })
+      .then(({ data }) => {
+        if (active && data) setLiveReviews((data as ReviewRow[]).map(mapReviewRow));
+      });
+
+    const channel = supabase
+      .channel("public:reviews")
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "reviews", filter: "is_approved=eq.true" },
+        (payload) => {
+          const incoming = mapReviewRow(payload.new as ReviewRow);
+          setLiveReviews((prev) => [incoming, ...prev]);
+          setIndex(0);
+          setJustArrivedId(incoming.id);
+          window.setTimeout(() => {
+            setJustArrivedId((id) => (id === incoming.id ? null : id));
+          }, 6000);
+        }
+      )
+      .subscribe();
+
+    return () => {
+      active = false;
+      supabase.removeChannel(channel);
+    };
+  }, []);
 
   function goTo(next: number) {
     setIndex((next + total) % total);
@@ -132,6 +201,16 @@ export function Testimonials() {
                 transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                 className="relative overflow-hidden border-t-4 border-kw-red bg-white px-8 pb-0 pt-12 text-center shadow-[0_25px_80px_rgba(0,0,0,0.5)] sm:px-14"
               >
+                {current.id === justArrivedId && (
+                  <motion.span
+                    initial={{ opacity: 0, y: -8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="absolute right-4 top-4 z-10 flex items-center gap-1.5 rounded-full bg-kw-red px-3 py-1 text-[0.65rem] font-bold uppercase tracking-widest text-white shadow-lg"
+                  >
+                    <span className="h-1.5 w-1.5 animate-ping rounded-full bg-white" />
+                    Just In
+                  </motion.span>
+                )}
                 <span
                   aria-hidden
                   className="font-nav pointer-events-none absolute left-4 top-2 select-none text-8xl leading-none text-kw-red/10 sm:text-9xl"
@@ -189,7 +268,7 @@ export function Testimonials() {
         </div>
 
         <div className="mt-8 flex items-center justify-center gap-2">
-          {testimonials.map((t, i) => (
+          {all.map((t, i) => (
             <button
               key={t.id}
               onClick={() => goTo(i)}
@@ -200,6 +279,30 @@ export function Testimonials() {
             />
           ))}
         </div>
+
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportOnce}
+          variants={fadeInUp}
+          className="mt-14 flex justify-center"
+        >
+          <Link href="/reviews" className="group relative inline-flex items-center justify-center">
+            <span
+              aria-hidden
+              className="animate-spin-slow absolute -inset-1 rounded-full bg-[conic-gradient(from_0deg,transparent_0%,var(--kw-red)_20%,transparent_40%)] opacity-80 blur-[2px] transition-opacity duration-300 group-hover:opacity-100"
+            />
+            <span className="relative inline-flex items-center gap-3 rounded-full bg-black px-8 py-4 font-nav text-sm font-semibold uppercase tracking-widest text-white ring-1 ring-white/10 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:shadow-[0_15px_40px_rgba(206,1,31,0.4)]">
+              <svg viewBox="0 0 24 24" className="h-4 w-4 text-kw-red" fill="currentColor">
+                <path d="M12 2.5l3.09 6.26 6.91.99-5 4.87 1.18 6.88L12 17.77l-6.18 3.73L7 14.62l-5-4.87 6.91-.99L12 2.5z" />
+              </svg>
+              Share Your Experience
+              <span aria-hidden className="inline-block transition-transform duration-300 group-hover:translate-x-1">
+                &rarr;
+              </span>
+            </span>
+          </Link>
+        </motion.div>
       </div>
     </section>
   );

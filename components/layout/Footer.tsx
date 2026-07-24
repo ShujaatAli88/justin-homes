@@ -77,6 +77,11 @@ export function Footer() {
               </Link>
             </li>
             <li>
+              <Link href="/reviews" className="hover:text-kw-red">
+                Leave a Review
+              </Link>
+            </li>
+            <li>
               <button type="button" onClick={openContactModal} className="hover:text-kw-red">
                 Contact
               </button>
@@ -107,26 +112,23 @@ export function Footer() {
       <div className="border-t border-gray-800">
         <div className="container-xl flex flex-col gap-6 py-8 text-xs text-gray-400 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex flex-wrap items-center gap-4">
-            <span className="flex items-center bg-white px-3 py-2">
-              <Image
-                src="/images/kw-logo.png"
-                alt="Keller Williams"
-                width={400}
-                height={264}
-                unoptimized
-                className="h-6 w-auto"
-              />
-            </span>
-            <span className="flex items-center bg-white px-3 py-2">
-              <Image
-                src="/images/badges/realtor-eho-logo.png"
-                alt="REALTOR / Equal Housing Opportunity"
-                width={355}
-                height={184}
-                unoptimized
-                className="h-8 w-auto"
-              />
-            </span>
+            <Image
+              src="/images/kw-logo-tight.png"
+              alt="Keller Williams"
+              width={390}
+              height={182}
+              unoptimized
+              className="h-6 w-auto"
+            />
+            <Image
+              src="/images/badges/realtor-eho-logo.png"
+              alt="REALTOR / Equal Housing Opportunity"
+              width={355}
+              height={184}
+              unoptimized
+              className="h-8 w-auto"
+              style={{ filter: "invert(1)" }}
+            />
           </div>
           <p className="max-w-2xl">
             Each Keller Williams office is independently owned and operated. Information deemed
