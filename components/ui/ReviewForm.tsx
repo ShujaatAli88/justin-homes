@@ -161,14 +161,14 @@ export function ReviewForm() {
 
   return (
     <div className="flex max-h-[88svh] w-full max-w-xl flex-col bg-white shadow-2xl">
-      <div className="shrink-0 px-6 pb-4 pt-6 sm:px-8 sm:pt-8">
+      <div className="shrink-0 px-6 pb-3 pt-5 sm:px-8 sm:pt-6">
         <div className="flex items-start">
           {STEPS.map((s, i) => (
             <div key={s.key} className="contents">
               <StepDot index={i} active={i === stepIndex} done={i < stepIndex} label={s.label} />
               {i < STEPS.length - 1 && (
                 <span
-                  className={`mt-[16px] h-0.5 flex-1 self-start transition-colors duration-300 ${
+                  className={`mt-[14px] h-0.5 flex-1 self-start transition-colors duration-300 ${
                     i < stepIndex ? "bg-kw-red" : "bg-gray-100"
                   }`}
                 />
@@ -189,8 +189,8 @@ export function ReviewForm() {
               transition={{ duration: 0.3 }}
             >
               <p className="font-nav text-xs uppercase tracking-[0.3em] text-kw-red">Step 1 of 3</p>
-              <h3 className="mt-1 text-xl font-bold text-black sm:text-2xl">How was your experience?</h3>
-              <div className="mt-6 flex justify-center gap-1" onMouseLeave={() => setHoverRating(0)}>
+              <h3 className="mt-1 text-lg font-bold text-black sm:text-xl">How was your experience?</h3>
+              <div className="mt-5 flex justify-center gap-1" onMouseLeave={() => setHoverRating(0)}>
                 {[1, 2, 3, 4, 5].map((n) => (
                   <BigStar
                     key={n}
@@ -213,10 +213,10 @@ export function ReviewForm() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -20 }}
               transition={{ duration: 0.3 }}
-              className="space-y-4"
+              className="space-y-3"
             >
               <p className="font-nav text-xs uppercase tracking-[0.3em] text-kw-red">Step 2 of 3</p>
-              <h3 className="text-xl font-bold text-black sm:text-2xl">A little about you</h3>
+              <h3 className="text-lg font-bold text-black sm:text-xl">A little about you</h3>
 
               <div className="group">
                 <label className={fieldLabelClass}>Full Name</label>
@@ -270,10 +270,10 @@ export function ReviewForm() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -20 }}
               transition={{ duration: 0.3 }}
-              className="space-y-4"
+              className="space-y-2.5"
             >
               <p className="font-nav text-xs uppercase tracking-[0.3em] text-kw-red">Step 3 of 3</p>
-              <h3 className="text-xl font-bold text-black sm:text-2xl">Tell us your story</h3>
+              <h3 className="text-lg font-bold text-black sm:text-xl">Tell us your story</h3>
 
               <div className="group">
                 <label className={fieldLabelClass}>Your Review</label>
@@ -281,35 +281,30 @@ export function ReviewForm() {
                   value={quote}
                   onChange={(e) => setQuote(e.target.value)}
                   required
-                  rows={3}
+                  rows={2}
                   placeholder="What was it like working with us?"
                   className={fieldTextareaClass}
                 />
-                <p className="mt-1 text-right text-xs text-gray-400">{quote.length} characters</p>
               </div>
 
-              <div className="border-t-4 border-kw-red bg-gray-50 p-4 text-center">
-                <p className="text-[0.65rem] font-semibold uppercase tracking-widest text-gray-400">
-                  Live Preview
-                </p>
-                <div className="mx-auto mt-2 flex h-9 w-9 items-center justify-center rounded-full bg-black text-xs font-bold text-white">
+              <div className="flex items-start gap-2 rounded-xl border-l-4 border-kw-red bg-gray-50 px-3 py-2">
+                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-black text-[0.65rem] font-bold text-white">
                   {(author.trim().charAt(0) || "?").toUpperCase()}
-                </div>
-                <p className="mt-1.5 text-sm font-semibold text-black">
-                  {author || "Your Name"} <span className="font-normal text-gray-400">| {role}</span>
-                </p>
-                <p className="mt-2 whitespace-pre-line text-sm leading-relaxed text-gray-700">
-                  {quote || "Your review will appear here..."}
+                </span>
+                <p className="line-clamp-2 text-xs leading-snug text-gray-600">
+                  <span className="font-semibold text-black">{author || "Your Name"}</span>
+                  <span className="text-gray-400"> ({role}): </span>
+                  <span className="italic">{quote || "Your review preview appears here..."}</span>
                 </p>
               </div>
 
-              <label className="flex cursor-pointer items-start gap-3 text-xs text-gray-500">
+              <label className="flex cursor-pointer items-start gap-2 text-[0.68rem] leading-snug text-gray-500">
                 <input
                   type="checkbox"
                   checked={consent}
                   onChange={(e) => setConsent(e.target.checked)}
                   required
-                  className="mt-1 accent-kw-red"
+                  className="mt-0.5 accent-kw-red"
                 />
                 <span>{REVIEW_CONSENT_TEXT}</span>
               </label>
@@ -320,7 +315,7 @@ export function ReviewForm() {
         </AnimatePresence>
       </div>
 
-      <div className="flex shrink-0 gap-3 border-t border-gray-100 px-6 py-4 sm:px-8">
+      <div className="flex shrink-0 gap-3 border-t border-gray-100 px-6 py-3 sm:px-8">
         {step === "rating" && (
           <button
             type="button"

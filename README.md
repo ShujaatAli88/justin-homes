@@ -6,16 +6,16 @@ Next.js (App Router) + TypeScript + Tailwind CSS site for Cadenhead Realty Group
 ## Status
 
 **Built so far:** project foundation (design tokens, fonts, motion helpers),
-integration stubs (`/lib/idx.ts`, `/lib/valuation.ts`, `/lib/crm.ts`), the Home
-page (animated hero, strategic-approach cards, meet-the-agent, trust-strip
-logo marquee, testimonials carousel, and featured listings), a dedicated
-`/home-valuation` page for the "What's My Home Worth?" lead-capture flow, a
-global "Get In Touch" contact modal (triggered from the nav, footer, and
-other CTAs across the site), an `/about` "Meet the Team" page for Abby &
-Justin (real copy supplied by the client — see `data/team.ts`), and
-Portfolio (`/properties` grid + `/properties/[slug]` detail pages) backed by
-10 real, currently-active Brownwood/Early listings supplied by the client
-(see `data/listings.ts`), and a `/reviews` "Share Your Experience" form that
+integration stubs (`/lib/valuation.ts`, `/lib/crm.ts`), the Home page
+(animated hero, strategic-approach cards, meet-the-agent, trust-strip logo
+marquee, testimonials carousel, and a live IDX active-listings embed), a
+dedicated `/home-valuation` page for the "What's My Home Worth?" lead-capture
+flow, a global "Get In Touch" contact modal (triggered from the nav, footer,
+and other CTAs across the site), an `/about` "Meet the Team" page for Abby &
+Justin (real copy supplied by the client — see `data/team.ts`), a Portfolio
+page (`/properties`) and a map-based `/home-search/listings` page — both
+embedding the client's live NTREIS Matrix IDX feeds (see "MLS / IDX
+Integration" below) — and a `/reviews` "Share Your Experience" form that
 writes to Supabase and shows up on the homepage Testimonials carousel
 instantly via Supabase Realtime (see "Customer Reviews (Supabase)" below).
 
@@ -25,10 +25,10 @@ those were pulled until there's real content for them. The underlying data
 files (`data/neighborhoods.ts`, `data/videos.ts`, `data/blog.ts`) are still
 here, ready for whenever dedicated pages for those get built.
 
-**Not yet built:** Home Search results, Neighborhoods detail pages,
-Testimonials (dedicated page), Video Gallery, Buyer's/Seller's Guides, Blog.
-These follow the same patterns already established (data in `/data`,
-integration seams in `/lib`, section components in `/components/sections`).
+**Not yet built:** Neighborhoods detail pages, Testimonials (dedicated page),
+Video Gallery, Buyer's/Seller's Guides, Blog. These follow the same patterns
+already established (data in `/data`, integration seams in `/lib`, section
+components in `/components/sections`).
 
 ## Getting Started
 
@@ -42,22 +42,26 @@ Open http://localhost:3000.
 ## Architecture
 
 - `app/` — routes (App Router)
+- `components/IDXEmbed.tsx` — reusable wrapper around the client's live
+  NTREIS Matrix IDX iframes (see "MLS / IDX Integration" below)
 - `components/layout/` — Navbar, Footer, MobileMenu, smooth-scroll provider,
   and the global contact modal (`ContactModal.tsx` + `ContactModalProvider.tsx`)
 - `components/sections/` — one component per home-page section
-- `components/ui/` — reusable primitives (Button, Card, ListingCard,
-  ValuationForm, ContactTriggerButton, SearchBar, SmartImage, StatIcons,
-  SocialIcons)
-- `data/` — typed content (agent, listings, neighborhoods, testimonials,
-  videos, blog). `listings.ts` and `testimonials.ts` hold real client-supplied
-  content; the rest are still placeholder/mock, see below
+- `components/ui/` — reusable primitives (Button, Card, ValuationForm,
+  ContactTriggerButton, SearchBar, SmartImage, SocialIcons)
+- `data/` — typed content (agent, neighborhoods, testimonials, videos, blog).
+  `testimonials.ts` holds real client-supplied content (plus live Supabase
+  reviews merged in, see below); the rest are still placeholder/mock
 - `lib/` — integration seams:
-  - `idx.ts` — property search/listings, currently backed by the real (but
-    hand-maintained) listings in `data/listings.ts` — swap for a live IDX/MLS
-    feed so it updates automatically instead
   - `valuation.ts` — home value estimate (AVM), currently a deterministic mock
   - `crm.ts` — lead submission; logs to console until `CRM_WEBHOOK_URL` is set
+  - `reviews.ts` — customer review submission, backed by Supabase
   - `motion.ts` — shared Framer Motion variants
+
+Property search/listings are no longer a data-driven integration seam —
+`/properties` and `/home-search/listings` embed the client's live MLS feed
+directly (see below), so there's no `lib/idx.ts` or `data/listings.ts`
+anymore.
 
 Any `{{TOKEN_LIKE_THIS}}` string in the codebase is a placeholder — search for
 `{{` to find every spot still waiting on real content or assets. The
@@ -75,7 +79,7 @@ of a broken image for any image path that hasn't been supplied yet.
 - [ ] Agent bio copy
 - [x] Real client testimonials — 4 reviews in place (see `data/testimonials.ts`)
 - [ ] Confirmed list of neighborhoods/areas served (starter list in `data/neighborhoods.ts` is a suggestion, not confirmed)
-- [ ] IDX/MLS feed access (KW Command, IDX Broker, Realtyna, or Showcase IDX) — see `lib/idx.ts`
+- [x] IDX/MLS feed access — live NTREIS Matrix embeds in place (Active Listings + Map Search), see "MLS / IDX Integration" below
 - [ ] AVM provider for home valuation — see `lib/valuation.ts`
 - [ ] CRM destination (KW Command webhook or other CRM API) — set `CRM_WEBHOOK_URL` env var, see `lib/crm.ts`
 - [x] Instagram handle — `https://www.instagram.com/cadenheadrealtygroup` in place (linked in the footer). Still need an API token (Graph API) or a widget provider (SnapWidget/Elfsight) whenever a dedicated Instagram feed section gets built back in
@@ -96,6 +100,39 @@ of a broken image for any image path that hasn't been supplied yet.
   the review form still works end-to-end but just logs submissions
   server-side instead of persisting them, and the homepage testimonials
   carousel shows only the static seed reviews in `data/testimonials.ts`.
+
+## MLS / IDX Integration (NTREIS Matrix)
+
+Property search is powered by two live NTREIS Matrix IDX widgets, embedded
+as cross-domain iframes via `components/IDXEmbed.tsx`:
+
+- **Active Listings** (`idx=44844573`) — used on the homepage "Active
+  Listings" section (`components/sections/ActiveListings.tsx`) and on
+  `/properties` (`app/properties/page.tsx`).
+- **Map Search** (`idx=64914572`) — used on `/home-search/listings`
+  (`app/home-search/listings/page.tsx`).
+
+Both feeds are live and update automatically on the MLS side — there is no
+mock data, caching layer, or scraping involved; the iframe just renders
+whatever NTREIS serves. Per MLS compliance, the embedded content is never
+modified, proxied, or scraped — it's framed as-is.
+
+**Sizing:** NTREIS doesn't send a resize handshake, so the iframe can't
+auto-fit its content height. `IDXEmbed` instead pins a `minHeight` (taller on
+mobile, since the widget's controls stack vertically there) and lets the
+iframe's own internal scrollbar handle any overflow — deliberately not a
+fixed aspect-ratio box, which would clip the search/listing UI.
+
+**Domain restriction — read before "fixing" a blank embed:** NTREIS Matrix
+locks these widgets to the approved production domain
+(`cadenheadrealty.com`). On `localhost` or any preview/staging domain the
+iframe will render blank — that's expected, not a bug. Final visual
+verification (does it render, is it sized well, does mobile look right) can
+only happen once the site is live on the approved domain.
+
+Since there's no structured per-listing data anymore (just the embed), there
+is no `/properties/[slug]` detail page — clicking into a specific listing
+happens inside the NTREIS widget itself.
 
 ## Customer Reviews (Supabase)
 

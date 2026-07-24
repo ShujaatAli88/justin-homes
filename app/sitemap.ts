@@ -1,12 +1,16 @@
 import type { MetadataRoute } from "next";
-import { listings } from "@/data/listings";
 
 const siteUrl = "https://cadenheadrealty.com";
 
 /**
  * TODO: extend this list as each remaining page in the site map (§6 of the
- * build brief) is implemented — /home-search/listings, /neighborhoods
- * (+ [slug]), /testimonials, /vlog, /buyers, /sellers, /blog (+ [slug]).
+ * build brief) is implemented — /neighborhoods (+ [slug]), /testimonials,
+ * /vlog, /buyers, /sellers, /blog (+ [slug]).
+ *
+ * Note: /properties and /home-search/listings both embed live NTREIS Matrix
+ * IDX widgets (see components/IDXEmbed.tsx) — there are no individual
+ * /properties/[slug] listing pages anymore since we don't have structured
+ * per-listing MLS data, just the embed itself.
  */
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
@@ -20,6 +24,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${siteUrl}/properties`,
+      lastModified: now,
+      changeFrequency: "daily",
+      priority: 0.9,
+    },
+    {
+      url: `${siteUrl}/home-search/listings`,
       lastModified: now,
       changeFrequency: "daily",
       priority: 0.9,
@@ -42,11 +52,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.6,
     },
-    ...listings.map((listing) => ({
-      url: `${siteUrl}/properties/${listing.slug}`,
-      lastModified: now,
-      changeFrequency: "weekly" as const,
-      priority: 0.7,
-    })),
   ];
 }

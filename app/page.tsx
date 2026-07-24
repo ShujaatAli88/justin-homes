@@ -5,11 +5,8 @@ import { TrustStrip } from "@/components/sections/TrustStrip";
 import { Testimonials } from "@/components/sections/Testimonials";
 import { ActiveListings } from "@/components/sections/ActiveListings";
 import { Newsletter } from "@/components/sections/Newsletter";
-import { idxProvider } from "@/lib/idx";
 
-export default async function Home() {
-  const featuredListings = await idxProvider.getFeaturedListings(6);
-
+export default function Home() {
   return (
     <>
       <Hero />
@@ -17,7 +14,7 @@ export default async function Home() {
       <MeetAgent />
       <TrustStrip />
       <Testimonials />
-      <ActiveListings listings={featuredListings} />
+      <ActiveListings />
       <Newsletter />
     </>
   );

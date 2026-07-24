@@ -2,12 +2,15 @@
 
 import { motion } from "framer-motion";
 import { SectionHeading } from "@/components/ui/Card";
-import { ListingCard } from "@/components/ui/ListingCard";
 import { Button } from "@/components/ui/Button";
-import { staggerContainer, fadeInUp, viewportOnce } from "@/lib/motion";
-import type { Listing } from "@/lib/idx";
+import { IDXEmbed } from "@/components/IDXEmbed";
+import { fadeInUp, viewportOnce } from "@/lib/motion";
 
-export function ActiveListings({ listings }: { listings: Listing[] }) {
+// NTREIS Matrix IDX "Active Listings" embed (idx=44844573) — live MLS feed,
+// auto-updates on the client's end. Replaces the old mock listing-card grid.
+const ACTIVE_LISTINGS_IDX = "44844573";
+
+export function ActiveListings() {
   return (
     <section className="relative overflow-hidden bg-white py-20 sm:py-28">
       <span
@@ -20,8 +23,8 @@ export function ActiveListings({ listings }: { listings: Listing[] }) {
       <div className="container-xl relative">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <SectionHeading eyebrow="Active Listings" title="Homes in the Area" />
-          <Button href="/properties" variant="secondary" className="group/cta gap-3 rounded-full">
-            View All
+          <Button href="/home-search/listings" variant="secondary" className="group/cta gap-3 rounded-full">
+            Search All Homes
             <span aria-hidden className="inline-block transition-transform duration-300 group-hover/cta:translate-x-1">
               &rarr;
             </span>
@@ -29,17 +32,13 @@ export function ActiveListings({ listings }: { listings: Listing[] }) {
         </div>
 
         <motion.div
-          variants={staggerContainer(0.1)}
           initial="hidden"
           whileInView="visible"
           viewport={viewportOnce}
-          className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3"
+          variants={fadeInUp}
+          className="mt-12 border-t-4 border-kw-red bg-gray-50 shadow-sm"
         >
-          {listings.map((listing) => (
-            <motion.div key={listing.id} variants={fadeInUp}>
-              <ListingCard listing={listing} />
-            </motion.div>
-          ))}
+          <IDXEmbed idx={ACTIVE_LISTINGS_IDX} title="Active MLS Listings — Cadenhead Realty Group" minHeight={800} />
         </motion.div>
       </div>
     </section>
