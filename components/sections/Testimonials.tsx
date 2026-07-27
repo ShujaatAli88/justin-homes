@@ -180,13 +180,16 @@ export function Testimonials() {
           </span>
         </motion.div>
 
-        <div className="relative mx-auto mt-14 max-w-2xl">
-          <motion.div
-            aria-hidden
-            className="absolute -inset-10 -z-10 bg-kw-red/15 blur-[100px]"
-            animate={{ opacity: [0.5, 0.9, 0.5], scale: [1, 1.08, 1] }}
-            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-          />
+        <div className="relative isolate mx-auto mt-14 max-w-2xl">
+          {/* Clipped to this exact box, and kept small/scale-free, so the
+              blur can never bleed onto the dots/CTA button below. */}
+          <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden rounded-[inherit]">
+            <motion.div
+              className="absolute inset-6 bg-kw-red/20 blur-2xl"
+              animate={{ opacity: [0.4, 0.8, 0.4] }}
+              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+            />
+          </div>
 
           <ArrowButton direction="prev" onClick={() => goTo(index - 1)} />
 
@@ -288,11 +291,21 @@ export function Testimonials() {
           className="mt-14 flex justify-center"
         >
           <Link href="/reviews" className="group relative inline-flex items-center justify-center">
-            <span
+            {/* Gentle breathing box-shadow — bounded to the pill itself, no
+                filter/blur spread, so it can never bleed onto other cards. */}
+            <motion.span
               aria-hidden
-              className="animate-spin-slow absolute -inset-1 rounded-full bg-[conic-gradient(from_0deg,transparent_0%,var(--kw-red)_20%,transparent_40%)] opacity-80 blur-[2px] transition-opacity duration-300 group-hover:opacity-100"
+              className="pointer-events-none absolute inset-0 rounded-full"
+              animate={{
+                boxShadow: [
+                  "0 0 0px rgba(206,1,31,0)",
+                  "0 0 22px rgba(206,1,31,0.45)",
+                  "0 0 0px rgba(206,1,31,0)",
+                ],
+              }}
+              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
             />
-            <span className="relative inline-flex items-center gap-3 rounded-full bg-black px-8 py-4 font-nav text-sm font-semibold uppercase tracking-widest text-white ring-1 ring-white/10 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:shadow-[0_15px_40px_rgba(206,1,31,0.4)]">
+            <span className="relative inline-flex items-center gap-3 rounded-full bg-black px-8 py-4 font-nav text-sm font-semibold uppercase tracking-widest text-white ring-1 ring-kw-red/30 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:shadow-[0_15px_40px_rgba(206,1,31,0.4)]">
               <svg viewBox="0 0 24 24" className="h-4 w-4 text-kw-red" fill="currentColor">
                 <path d="M12 2.5l3.09 6.26 6.91.99-5 4.87 1.18 6.88L12 17.77l-6.18 3.73L7 14.62l-5-4.87 6.91-.99L12 2.5z" />
               </svg>
