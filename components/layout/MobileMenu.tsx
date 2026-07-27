@@ -49,10 +49,10 @@ export function MobileMenu() {
               <Link
                 href="/"
                 onClick={() => setOpen(false)}
-                className="flex items-center bg-white p-1.5"
+                className="flex items-center"
                 aria-label="Cadenhead Realty Group home"
               >
-                <Image src="/logo.png" alt="Cadenhead Realty Group" width={80} height={80} unoptimized className="h-9 w-9" />
+                <Image src="/logo.png" alt="Cadenhead Realty Group" width={80} height={80} unoptimized className="h-11 w-11" />
               </Link>
               <button
                 onClick={() => setOpen(false)}

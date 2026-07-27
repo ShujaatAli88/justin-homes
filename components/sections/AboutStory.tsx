@@ -77,7 +77,7 @@ export function AboutStory() {
   const { openContactModal } = useContactModal();
 
   return (
-    <section className="relative overflow-hidden bg-white py-20 sm:py-28">
+    <section className="relative overflow-hidden bg-white pb-20 pt-6 sm:pb-28 sm:pt-8">
       <div className="container-xl">
         <SectionHeading eyebrow="Our Philosophy" title="The Cadenhead Difference" align="center" />
 

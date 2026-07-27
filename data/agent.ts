@@ -20,13 +20,13 @@ export interface AgentProfile {
 
 export const agent: AgentProfile = {
   name: "Justin Cadenhead",
-  brokerage: "Keller Williams",
+  brokerage: "KW Synergy",
   title: "REALTOR®",
   tagline: "We have a passion for helping our clients achieve their real estate goals.",
   bio: "Welcome to the dynamic world of real estate, where dreams meet homes! We are Abby & Justin, a dedicated husband-and-wife real estate team serving the vibrant area of central Texas. With a passion for helping clients find their perfect property and a commitment to excellence, we are here to guide you through every step of your real estate journey.",
   licenseNumber: "0813676",
   headshot: "/images/agent/justin.jpg",
-  email: "Justincadenhead@gmail.com", // TODO(client): personal Gmail in use — replace with a business email when available
+  email: "justin.cadenhead@kw.com",
   phone: "(325) 642-7644",
   officeAddress: "208 E Anderson St, Brownwood, TX 76801",
   areasServed: ["Brownwood", "{{AREAS_SERVED_LIST}}"],

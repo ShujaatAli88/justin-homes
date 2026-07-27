@@ -70,7 +70,7 @@ of a broken image for any image path that hasn't been supplied yet.
 
 ## TODO — Content & Access to Collect From the Client
 
-- [x] Business email — `Justincadenhead@gmail.com` in place (personal Gmail; replace with a business email if/when the client sets one up)
+- [x] Business email — `justin.cadenhead@kw.com` in place (real KW Synergy email, replacing the earlier personal-Gmail placeholder)
 - [x] Phone number — `(325) 642-7644`
 - [x] Office address — `208 E Anderson St, Brownwood, TX 76801`
 - [x] Keller Williams license number — `0813676`
@@ -89,7 +89,7 @@ of a broken image for any image path that hasn't been supplied yet.
 - [x] EHO/REALTOR® logo — official combined logo in place at `public/images/badges/realtor-eho-logo.png` (used in `Footer.tsx` and `TrustStrip.tsx`)
 - [x] Hero background video — `public/video/hero.mp4` in place
 - [ ] Hero poster frame (static fallback image shown before/if the video can't play) — see `components/sections/Hero.tsx`
-- [ ] Abby's headshot — currently a placeholder on `/about`, see `data/team.ts`
+- [x] Abby's headshot — `public/images/agent/abby.jpg` in place, see `data/team.ts`
 
 ## Environment Variables
 

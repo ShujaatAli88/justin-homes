@@ -34,7 +34,7 @@ export function Navbar() {
       )}
     >
       <div className="container-xl flex h-24 items-center justify-between">
-        <Link href="/" className="flex items-center bg-black p-2" aria-label="Cadenhead Realty Group home">
+        <Link href="/" className="flex items-center" aria-label="Cadenhead Realty Group home">
           <Image
             src="/logo.png"
             alt="Cadenhead Realty Group"
@@ -42,7 +42,7 @@ export function Navbar() {
             height={96}
             priority
             unoptimized
-            className="h-10 w-10 sm:h-12 sm:w-12"
+            className={cn("h-12 w-12 transition-all duration-300 sm:h-14 sm:w-14", solid && "invert")}
           />
         </Link>
 

@@ -24,7 +24,7 @@ export function Footer() {
       <div className="container-xl grid gap-12 py-16 sm:grid-cols-2 lg:grid-cols-4">
         <div>
           <Link href="/" className="inline-flex" aria-label="Cadenhead Realty Group home">
-            <Image src="/logo.png" alt="Cadenhead Realty Group" width={128} height={128} unoptimized className="h-24 w-24" />
+            <Image src="/logo.png" alt="Cadenhead Realty Group" width={160} height={160} unoptimized className="h-32 w-32" />
           </Link>
           <p className="mt-4 max-w-xs text-sm text-gray-400">{agent.tagline}</p>
           <div className="mt-6 flex gap-4">
