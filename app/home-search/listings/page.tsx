@@ -7,6 +7,8 @@ import { IDXEmbed } from "@/components/IDXEmbed";
 // domain-restriction note (blank on localhost, live on cadenheadrealty.com).
 const MAP_SEARCH_IDX = "eddb4588";
 
+const highlights = ["Live Map Search", "Auto-Updates Daily", "Brownwood & Early, TX"];
+
 export const metadata: Metadata = {
   title: "Home Search",
   description:
@@ -33,12 +35,27 @@ export default function HomeSearchPage() {
             Search live, active listings across Brownwood, Early, and the surrounding area directly
             on the map below &mdash; powered by our MLS, updated in real time.
           </p>
+
+          <ul className="mt-6 flex flex-wrap items-center gap-3">
+            {highlights.map((h) => (
+              <li
+                key={h}
+                className="flex items-center gap-2 border border-white/15 bg-white/5 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white backdrop-blur-sm"
+              >
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+                </span>
+                {h}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
 
       <div className="bg-white py-16 sm:py-20">
         <div className="container-xl">
-          <div className="relative overflow-hidden rounded-2xl border border-gray-100 bg-gray-50 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.25)]">
+          <div className="relative overflow-hidden rounded-2xl border border-gray-100 bg-gray-50 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.25)] transition-shadow duration-500 hover:shadow-[0_40px_100px_-25px_rgba(206,1,31,0.25)]">
             <div className="flex items-center justify-between border-b border-gray-200 bg-white px-5 py-3">
               <div className="flex items-center gap-1.5">
                 <span className="h-2.5 w-2.5 rounded-full bg-gray-200" />

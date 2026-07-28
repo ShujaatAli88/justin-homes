@@ -29,7 +29,7 @@ export function Navbar() {
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-all duration-300",
         solid
-          ? "border-b border-gray-100 bg-white/90 text-black shadow-sm backdrop-blur-md"
+          ? "border-b border-white/10 bg-black/95 text-white shadow-sm backdrop-blur-md"
           : "border-b border-white/0 bg-transparent text-white"
       )}
     >
@@ -42,7 +42,7 @@ export function Navbar() {
             height={96}
             priority
             unoptimized
-            className={cn("h-12 w-12 transition-all duration-300 sm:h-14 sm:w-14", solid && "invert")}
+            className="h-14 w-14 transition-all duration-300 sm:h-16 sm:w-16"
           />
         </Link>
 
