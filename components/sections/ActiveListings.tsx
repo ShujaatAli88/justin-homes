@@ -6,9 +6,9 @@ import { Button } from "@/components/ui/Button";
 import { IDXEmbed } from "@/components/IDXEmbed";
 import { fadeInUp, viewportOnce } from "@/lib/motion";
 
-// NTREIS Matrix IDX "Active Listings" embed (idx=44844573) — live MLS feed,
+// NTREIS Matrix IDX "Active Listings" embed (idx=92674587) — live MLS feed,
 // auto-updates on the client's end. Replaces the old mock listing-card grid.
-const ACTIVE_LISTINGS_IDX = "44844573";
+const ACTIVE_LISTINGS_IDX = "92674587";
 
 export function ActiveListings() {
   return (

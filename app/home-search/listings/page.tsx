@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { IDXEmbed } from "@/components/IDXEmbed";
 
-// NTREIS Matrix IDX "Map Search" embed (idx=64914572) — live, map-based MLS
+// NTREIS Matrix IDX "Map Search" embed (idx=eddb4588) — live, map-based MLS
 // search served cross-domain from the client's MLS; content auto-updates on
 // their end, nothing here is mock data. See components/IDXEmbed.tsx for the
 // domain-restriction note (blank on localhost, live on cadenheadrealty.com).
-const MAP_SEARCH_IDX = "64914572";
+const MAP_SEARCH_IDX = "eddb4588";
 
 export const metadata: Metadata = {
   title: "Home Search",
