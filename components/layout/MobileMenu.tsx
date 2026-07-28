@@ -48,7 +48,14 @@ export function MobileMenu() {
             <div className="container-xl flex items-center justify-between py-6">
               <Link
                 href="/"
-                onClick={() => setOpen(false)}
+                onClick={() => {
+                  setOpen(false);
+                  if (window.lenisInstance) {
+                    window.lenisInstance.scrollTo(0);
+                  } else {
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  }
+                }}
                 className="flex items-center"
                 aria-label="Cadenhead Realty Group home"
               >

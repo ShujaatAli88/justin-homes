@@ -24,6 +24,14 @@ export function Navbar() {
 
   const solid = scrolled;
 
+  function scrollToTop() {
+    if (window.lenisInstance) {
+      window.lenisInstance.scrollTo(0);
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
+
   return (
     <header
       className={cn(
@@ -34,7 +42,7 @@ export function Navbar() {
       )}
     >
       <div className="container-xl flex h-24 items-center justify-between">
-        <Link href="/" className="flex items-center" aria-label="Cadenhead Realty Group home">
+        <Link href="/" onClick={scrollToTop} className="flex items-center" aria-label="Cadenhead Realty Group home">
           <Image
             src="/logo.png"
             alt="Cadenhead Realty Group"
