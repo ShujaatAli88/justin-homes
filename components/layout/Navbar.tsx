@@ -38,7 +38,7 @@ export function Navbar() {
         "fixed inset-x-0 top-0 z-50 transition-all duration-300",
         solid
           ? "border-b border-white/10 bg-black/95 text-white shadow-sm backdrop-blur-md"
-          : "border-b border-white/0 bg-transparent text-white"
+          : "border-b border-white/0 bg-black/25 text-white backdrop-blur-sm"
       )}
     >
       <div className="container-xl flex h-24 items-center justify-between">
