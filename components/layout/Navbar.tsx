@@ -3,26 +3,33 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { primaryNav, ctaLink } from "@/components/layout/nav-links";
 import { MobileMenu } from "@/components/layout/MobileMenu";
 import { useContactModal } from "@/components/layout/ContactModalProvider";
 import { agent } from "@/data/agent";
 import { cn, telHref } from "@/lib/utils";
 
+// How far (in px) the user has to scroll before the navbar reaches its
+// fully-solid black state. Values below tie every visual property (bg
+// opacity, blur, border, shadow) to this same continuous scroll range, so
+// the transition is a smooth crossfade rather than a snap between two
+// discrete class sets — and it reverses on its own when scrolling back up
+// since it's just a function of scroll position, not a stored boolean.
+const SCROLL_RANGE: [number, number] = [0, 220];
+
 export function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
   const { openContactModal } = useContactModal();
+  const { scrollY } = useScroll();
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  const solid = scrolled;
+  const bgOpacity = useTransform(scrollY, SCROLL_RANGE, [0.22, 1]);
+  const blurPx = useTransform(scrollY, SCROLL_RANGE, [4, 16]);
+  const backdropFilter = useTransform(blurPx, (v) => `blur(${v}px)`);
+  const borderOpacity = useTransform(scrollY, SCROLL_RANGE, [0, 0.1]);
+  const borderColor = useTransform(borderOpacity, (v) => `rgba(255,255,255,${v})`);
+  const shadowOpacity = useTransform(scrollY, SCROLL_RANGE, [0, 0.14]);
+  const boxShadow = useTransform(shadowOpacity, (v) => `0 8px 24px rgba(0,0,0,${v})`);
 
   function scrollToTop() {
     if (window.lenisInstance) {
@@ -33,14 +40,17 @@ export function Navbar() {
   }
 
   return (
-    <header
-      className={cn(
-        "fixed inset-x-0 top-0 z-50 transition-all duration-300",
-        solid
-          ? "border-b border-white/10 bg-black/95 text-white shadow-sm backdrop-blur-md"
-          : "border-b border-white/0 bg-black/25 text-white backdrop-blur-sm"
-      )}
+    <motion.header
+      className="fixed inset-x-0 top-0 z-50 border-b text-white"
+      style={{ borderColor, boxShadow }}
     >
+      <motion.div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -z-10 bg-black"
+        style={{ opacity: bgOpacity, backdropFilter }}
+      />
+      <div aria-hidden className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-kw-red/70 to-transparent" />
+
       <div className="container-xl flex h-24 items-center justify-between">
         <Link href="/" onClick={scrollToTop} className="flex items-center" aria-label="Cadenhead Realty Group home">
           <Image
@@ -119,6 +129,6 @@ export function Navbar() {
 
         <MobileMenu />
       </div>
-    </header>
+    </motion.header>
   );
 }
