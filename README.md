@@ -53,8 +53,10 @@ Open http://localhost:3000.
   `testimonials.ts` holds real client-supplied content (plus live Supabase
   reviews merged in, see below); the rest are still placeholder/mock
 - `lib/` — integration seams:
-  - `valuation.ts` — home value estimate (AVM), currently a deterministic mock
-  - `crm.ts` — lead submission; logs to console until `CRM_WEBHOOK_URL` is set
+  - `valuation.ts` — "What's My Home Worth?" lead capture; deliberately does
+    not generate an automated online estimate — Justin follows up personally
+  - `crm.ts` — lead submission via Web3Forms (web3forms.com), a free-forever
+    form-to-email service; logs to console until `WEB3FORMS_ACCESS_KEY` is set
   - `reviews.ts` — customer review submission, backed by Supabase
   - `motion.ts` — shared Framer Motion variants
 
@@ -80,8 +82,7 @@ of a broken image for any image path that hasn't been supplied yet.
 - [x] Real client testimonials — 4 reviews in place (see `data/testimonials.ts`)
 - [ ] Confirmed list of neighborhoods/areas served (starter list in `data/neighborhoods.ts` is a suggestion, not confirmed)
 - [x] IDX/MLS feed access — live NTREIS Matrix embeds in place (Active Listings + Map Search), see "MLS / IDX Integration" below
-- [ ] AVM provider for home valuation — see `lib/valuation.ts`
-- [ ] CRM destination (KW Command webhook or other CRM API) — set `CRM_WEBHOOK_URL` env var, see `lib/crm.ts`
+- [x] Lead destination — leads (contact form + home valuation requests) email to `Justin.cadenhead@kw.com` via Web3Forms; set `WEB3FORMS_ACCESS_KEY` env var, see `lib/crm.ts`
 - [x] Instagram handle — `https://www.instagram.com/cadenheadrealtygroup` in place (linked in the footer). Still need an API token (Graph API) or a widget provider (SnapWidget/Elfsight) whenever a dedicated Instagram feed section gets built back in
 - [ ] Blog content
 - [x] Keller Williams logo — `public/images/kw-logo.png` in place (used in `TrustStrip.tsx` and `Footer.tsx`)
@@ -93,8 +94,12 @@ of a broken image for any image path that hasn't been supplied yet.
 
 ## Environment Variables
 
-- `CRM_WEBHOOK_URL` — lead-submission destination. Without it, leads are only
-  logged server-side (safe for development/demo).
+- `WEB3FORMS_ACCESS_KEY` — lead-submission destination (contact form + home
+  valuation requests), delivered by email via Web3Forms. Without it, leads
+  are only logged server-side (safe for development/demo). Get a free access
+  key at web3forms.com, tied to the destination inbox
+  (`Justin.cadenhead@kw.com`) — no card, no signup required, no volume caps
+  at this site's scale.
 - `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`,
   `SUPABASE_SERVICE_ROLE_KEY` — customer reviews (see below). Without these,
   the review form still works end-to-end but just logs submissions

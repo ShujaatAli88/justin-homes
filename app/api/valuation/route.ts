@@ -14,6 +14,9 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Name, email, and phone are required." }, { status: 400 });
   }
 
-  const { result, leadSubmitted } = await submitValuationRequest(body);
-  return NextResponse.json({ result, leadSubmitted });
+  const { leadSubmitted } = await submitValuationRequest(body);
+  if (!leadSubmitted) {
+    return NextResponse.json({ error: "Unable to submit your request. Please try again." }, { status: 502 });
+  }
+  return NextResponse.json({ success: true });
 }

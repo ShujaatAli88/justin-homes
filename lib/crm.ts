@@ -1,10 +1,12 @@
 /**
  * CRM lead-submission abstraction.
  *
- * TODO(client): Wire this to the real destination once available — either a
- * KW Command webhook/API, or the client's chosen CRM. Set CRM_WEBHOOK_URL in
- * the environment and implement the fetch call below; until then, leads are
- * only logged server-side so the surrounding forms can be built and tested.
+ * Leads are delivered via Web3Forms (web3forms.com) — a free-forever,
+ * no-backend form-to-email service. Set WEB3FORMS_ACCESS_KEY in the
+ * environment (an access key generated at web3forms.com against
+ * Justin.cadenhead@kw.com) and every submitted lead emails there
+ * automatically. Until it's set, leads are only logged server-side so the
+ * surrounding forms can still be built and tested end-to-end.
  */
 
 export type LeadType = "valuation" | "contact" | "newsletter" | "listing-inquiry" | "showing-request";
@@ -24,33 +26,56 @@ export interface CrmSubmitResult {
   error?: string;
 }
 
+const LEAD_TYPE_LABEL: Record<LeadType, string> = {
+  valuation: "Home Valuation Request",
+  contact: "Contact Form Message",
+  newsletter: "Newsletter Signup",
+  "listing-inquiry": "Listing Inquiry",
+  "showing-request": "Showing Request",
+};
+
+function buildLeadMessage(lead: Lead): string {
+  const lines = [
+    lead.phone && `Phone: ${lead.phone}`,
+    ...Object.entries(lead.meta ?? {}).map(([key, value]) => `${key}: ${value}`),
+    "",
+    lead.message ?? "",
+  ].filter((line): line is string => Boolean(line) || line === "");
+  return lines.join("\n");
+}
+
 export async function submitLead(lead: Lead): Promise<CrmSubmitResult> {
   if (!lead.consent) {
     return { success: false, error: "Consent is required before a lead can be submitted." };
   }
 
-  const webhookUrl = process.env.CRM_WEBHOOK_URL;
+  const accessKey = process.env.WEB3FORMS_ACCESS_KEY;
 
-  if (!webhookUrl) {
-    // TODO(client): remove this fallback once CRM_WEBHOOK_URL / KW Command
-    // credentials are supplied. For now leads are only logged so the forms
-    // can be developed and demoed end-to-end.
+  if (!accessKey) {
+    // TODO(client): remove this fallback once WEB3FORMS_ACCESS_KEY is set.
     console.log("[crm] (mock) lead captured:", lead);
     return { success: true };
   }
 
   try {
-    const res = await fetch(webhookUrl, {
+    const res = await fetch("https://api.web3forms.com/submit", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(lead),
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({
+        access_key: accessKey,
+        subject: `${LEAD_TYPE_LABEL[lead.type]} — ${lead.name}`,
+        from_name: lead.name,
+        email: lead.email,
+        message: buildLeadMessage(lead),
+      }),
     });
-    if (!res.ok) {
-      return { success: false, error: `CRM responded with ${res.status}` };
+    const data = await res.json();
+    if (!res.ok || !data.success) {
+      return { success: false, error: data.message ?? `Web3Forms responded with ${res.status}` };
     }
     return { success: true };
   } catch (err) {
-    return { success: false, error: err instanceof Error ? err.message : "Unknown CRM error" };
+    return { success: false, error: err instanceof Error ? err.message : "Unknown error submitting lead" };
   }
 }
 

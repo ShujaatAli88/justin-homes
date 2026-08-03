@@ -1,10 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { useContactModal } from "@/components/layout/ContactModalProvider";
 import { CRM_CONSENT_TEXT } from "@/lib/crm";
-import { formatPrice } from "@/lib/utils";
-import type { ValuationResult } from "@/lib/valuation";
 import { fieldLabelClass, fieldInputClass, submitButtonClass, submitArrowClass } from "@/components/ui/form-styles";
 
 type Step = "address" | "details" | "success";
@@ -35,8 +32,6 @@ export function ValuationForm() {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<SubmitStatus>("idle");
   const [error, setError] = useState<string | null>(null);
-  const [result, setResult] = useState<ValuationResult | null>(null);
-  const { openContactModal } = useContactModal();
 
   function handleAddressSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -76,7 +71,6 @@ export function ValuationForm() {
         setStatus("idle");
         return;
       }
-      setResult(data.result);
       setStep("success");
     } catch {
       setError("Something went wrong. Please try again.");
@@ -84,22 +78,20 @@ export function ValuationForm() {
     }
   }
 
-  if (step === "success" && result) {
+  if (step === "success") {
     return (
       <div className="w-full max-w-xl bg-white p-8 text-center shadow-2xl sm:p-10">
-        <p className="font-nav text-xs uppercase tracking-[0.3em] text-kw-red">Estimated Home Value</p>
-        <p className="mt-3 text-4xl font-bold text-black sm:text-5xl">{formatPrice(result.estimate)}</p>
-        <p className="mt-2 text-sm text-gray-600">
-          Estimated range: {formatPrice(result.rangeLow)} &ndash; {formatPrice(result.rangeHigh)}
+        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-black text-kw-red">
+          <svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" stroke="currentColor" strokeWidth="2.5">
+            <path d="M5 13l4 4L19 7" />
+          </svg>
+        </div>
+        <p className="mt-5 font-nav text-xs uppercase tracking-[0.3em] text-kw-red">Info Sent</p>
+        <h3 className="mt-2 text-2xl font-bold text-black sm:text-3xl">Thanks, {name.split(" ")[0]}!</h3>
+        <p className="mt-3 text-sm text-gray-600">
+          Your property details have been sent directly to Justin &mdash; he&apos;ll personally follow up
+          by email with your home&apos;s valuation shortly.
         </p>
-        <p className="mt-4 text-sm text-gray-600">
-          This is an automated estimate, not a formal appraisal &mdash; Justin will follow up with a
-          detailed comparative market analysis.
-        </p>
-        <button type="button" onClick={openContactModal} className={`mt-8 ${submitButtonClass}`}>
-          Schedule a Consultation
-          <span aria-hidden className={submitArrowClass} />
-        </button>
       </div>
     );
   }
