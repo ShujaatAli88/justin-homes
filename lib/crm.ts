@@ -1,13 +1,20 @@
 /**
  * CRM lead-submission abstraction.
  *
- * Leads are delivered via Web3Forms (web3forms.com) — a free-forever,
- * no-backend form-to-email service. Set WEB3FORMS_ACCESS_KEY in the
- * environment (an access key generated at web3forms.com against
- * Justin.cadenhead@kw.com) and every submitted lead emails there
- * automatically. Until it's set, leads are only logged server-side so the
- * surrounding forms can still be built and tested end-to-end.
+ * Leads are delivered via FormSubmit (formsubmit.co) — a free-forever,
+ * no-signup, no-API-key form-to-email service; the destination email is
+ * just part of the request URL. Delivers to agent.email (Justin's inbox).
+ *
+ * IMPORTANT: the first submission to a brand-new destination email
+ * triggers a one-time confirmation email from FormSubmit — Justin needs to
+ * click "Activate Form" in that email before any lead actually arrives.
+ * Every submission after that delivers immediately.
+ *
+ * In development (NODE_ENV !== "production") submissions are only logged
+ * server-side instead of actually posting to FormSubmit, so local testing
+ * never spams the real inbox or re-triggers the activation email.
  */
+import { agent } from "@/data/agent";
 
 export type LeadType = "valuation" | "contact" | "newsletter" | "listing-inquiry" | "showing-request";
 
@@ -49,29 +56,28 @@ export async function submitLead(lead: Lead): Promise<CrmSubmitResult> {
     return { success: false, error: "Consent is required before a lead can be submitted." };
   }
 
-  const accessKey = process.env.WEB3FORMS_ACCESS_KEY;
-
-  if (!accessKey) {
-    // TODO(client): remove this fallback once WEB3FORMS_ACCESS_KEY is set.
-    console.log("[crm] (mock) lead captured:", lead);
+  if (process.env.NODE_ENV !== "production") {
+    console.log("[crm] (mock, dev-only) lead captured:", lead);
     return { success: true };
   }
 
   try {
-    const res = await fetch("https://api.web3forms.com/submit", {
+    const res = await fetch(`https://formsubmit.co/ajax/${agent.email}`, {
       method: "POST",
       headers: { "Content-Type": "application/json", Accept: "application/json" },
       body: JSON.stringify({
-        access_key: accessKey,
-        subject: `${LEAD_TYPE_LABEL[lead.type]} — ${lead.name}`,
-        from_name: lead.name,
+        _subject: `${LEAD_TYPE_LABEL[lead.type]} — ${lead.name}`,
+        _replyto: lead.email,
+        _template: "table",
+        name: lead.name,
         email: lead.email,
+        phone: lead.phone ?? "",
         message: buildLeadMessage(lead),
       }),
     });
     const data = await res.json();
-    if (!res.ok || !data.success) {
-      return { success: false, error: data.message ?? `Web3Forms responded with ${res.status}` };
+    if (!res.ok || data.success === false || data.success === "false") {
+      return { success: false, error: data.message ?? `FormSubmit responded with ${res.status}` };
     }
     return { success: true };
   } catch (err) {

@@ -55,8 +55,11 @@ Open http://localhost:3000.
 - `lib/` — integration seams:
   - `valuation.ts` — "What's My Home Worth?" lead capture; deliberately does
     not generate an automated online estimate — Justin follows up personally
-  - `crm.ts` — lead submission via Web3Forms (web3forms.com), a free-forever
-    form-to-email service; logs to console until `WEB3FORMS_ACCESS_KEY` is set
+  - `crm.ts` — lead submission via FormSubmit (formsubmit.co), a free-forever
+    form-to-email service that needs no API key/account — just the
+    destination email in the request URL. Logs to console instead of
+    actually posting whenever `NODE_ENV !== "production"`, so local dev
+    never spams the real inbox
   - `reviews.ts` — customer review submission, backed by Supabase
   - `motion.ts` — shared Framer Motion variants
 
@@ -82,7 +85,7 @@ of a broken image for any image path that hasn't been supplied yet.
 - [x] Real client testimonials — 4 reviews in place (see `data/testimonials.ts`)
 - [ ] Confirmed list of neighborhoods/areas served (starter list in `data/neighborhoods.ts` is a suggestion, not confirmed)
 - [x] IDX/MLS feed access — live NTREIS Matrix embeds in place (Active Listings + Map Search), see "MLS / IDX Integration" below
-- [x] Lead destination — leads (contact form + home valuation requests) email to `Justin.cadenhead@kw.com` via Web3Forms; set `WEB3FORMS_ACCESS_KEY` env var, see `lib/crm.ts`
+- [x] Lead destination — leads (contact form + home valuation requests) email to `Justin.cadenhead@kw.com` via FormSubmit, no env var/API key needed, see `lib/crm.ts`. **Justin must click the one-time "Activate Form" link** FormSubmit emails to that address after the very first real lead comes in on production — until then, submissions won't actually be delivered
 - [x] Instagram handle — `https://www.instagram.com/cadenheadrealtygroup` in place (linked in the footer). Still need an API token (Graph API) or a widget provider (SnapWidget/Elfsight) whenever a dedicated Instagram feed section gets built back in
 - [ ] Blog content
 - [x] Keller Williams logo — `public/images/kw-logo.png` in place (used in `TrustStrip.tsx` and `Footer.tsx`)
@@ -94,17 +97,40 @@ of a broken image for any image path that hasn't been supplied yet.
 
 ## Environment Variables
 
-- `WEB3FORMS_ACCESS_KEY` — lead-submission destination (contact form + home
-  valuation requests), delivered by email via Web3Forms. Without it, leads
-  are only logged server-side (safe for development/demo). Get a free access
-  key at web3forms.com, tied to the destination inbox
-  (`Justin.cadenhead@kw.com`) — no card, no signup required, no volume caps
-  at this site's scale.
+Lead delivery (contact form + home valuation requests) needs **no environment
+variable at all** — see "Lead Delivery (FormSubmit)" below.
+
 - `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`,
   `SUPABASE_SERVICE_ROLE_KEY` — customer reviews (see below). Without these,
   the review form still works end-to-end but just logs submissions
   server-side instead of persisting them, and the homepage testimonials
   carousel shows only the static seed reviews in `data/testimonials.ts`.
+
+## Lead Delivery (FormSubmit)
+
+The Contact modal and the "What's My Home Worth?" form both submit through
+`lib/crm.ts`, which POSTs to FormSubmit (formsubmit.co) — a free-forever
+form-to-email service that needs no account, no API key, and has no volume
+cap at this site's scale. The destination email (`agent.email` —
+`Justin.cadenhead@kw.com`) is just part of the request URL
+(`https://formsubmit.co/ajax/<email>`), nothing to configure.
+
+**One-time activation step:** the first submission ever sent to a given
+destination email triggers a confirmation email from FormSubmit with an
+"Activate Form" link. Justin needs to click that once — after that, every
+future submission delivers immediately with no further action needed. This
+will happen automatically the first time a real visitor submits either form
+on the live production site.
+
+Local development never triggers this: `submitLead()` only logs to the
+console when `NODE_ENV !== "production"` (i.e. `npm run dev`), so testing
+locally can't spam the inbox or re-trigger the activation flow.
+
+The home valuation form deliberately does not compute or show an automated
+online estimate — it never did anything more than generate a fake
+deterministic number from the address, which would have been actively
+misleading to show a visitor. Submitting it just sends the property and
+contact details to Justin, who follows up personally by email.
 
 ## MLS / IDX Integration (NTREIS Matrix)
 
