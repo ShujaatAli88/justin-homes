@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { SmartImage } from "@/components/ui/SmartImage";
 import { SocialIcon, type SocialPlatform } from "@/components/ui/SocialIcons";
-import { CRM_CONSENT_TEXT } from "@/lib/crm";
+import { CRM_CONSENT_TEXT, submitLead } from "@/lib/crm";
 import { agent } from "@/data/agent";
 import { isPlaceholder, telHref } from "@/lib/utils";
 import { fieldLabelClass, fieldInputClass, fieldTextareaClass, submitButtonClass, submitArrowClass } from "@/components/ui/form-styles";
@@ -49,32 +49,36 @@ export function ContactModal({ isOpen, onClose }: { isOpen: boolean; onClose: ()
     setError(null);
 
     const form = new FormData(e.currentTarget);
-    const payload = {
+    const name = String(form.get("name") ?? "");
+    const email = String(form.get("email") ?? "");
+    const consent = form.get("consent") === "on";
+
+    if (!consent) {
+      setError("Consent is required.");
+      setStatus("error");
+      return;
+    }
+    if (!name || !email) {
+      setError("Name and email are required.");
+      setStatus("error");
+      return;
+    }
+
+    const result = await submitLead({
       type: "contact",
-      name: String(form.get("name") ?? ""),
-      email: String(form.get("email") ?? ""),
+      name,
+      email,
       phone: String(form.get("phone") ?? ""),
       message: String(form.get("message") ?? ""),
-      consent: form.get("consent") === "on",
-    };
+      consent,
+    });
 
-    try {
-      const res = await fetch("/api/leads", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        setError(data.error ?? "Something went wrong. Please try again.");
-        setStatus("error");
-        return;
-      }
-      setStatus("success");
-    } catch {
-      setError("Something went wrong. Please try again.");
+    if (!result.success) {
+      setError(result.error ?? "Something went wrong. Please try again.");
       setStatus("error");
+      return;
     }
+    setStatus("success");
   }
 
   if (typeof document === "undefined") return null;

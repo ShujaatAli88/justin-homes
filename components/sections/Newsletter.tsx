@@ -3,7 +3,7 @@
 import { useState, type FormEvent } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/Button";
-import { CRM_CONSENT_TEXT } from "@/lib/crm";
+import { CRM_CONSENT_TEXT, submitLead } from "@/lib/crm";
 import { fadeInUp, viewportOnce } from "@/lib/motion";
 
 export function Newsletter() {
@@ -13,22 +13,15 @@ export function Newsletter() {
     e.preventDefault();
     setStatus("submitting");
     const form = new FormData(e.currentTarget);
+    const email = String(form.get("email") ?? "");
 
-    try {
-      const res = await fetch("/api/leads", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          type: "newsletter",
-          name: String(form.get("email") ?? ""),
-          email: String(form.get("email") ?? ""),
-          consent: form.get("consent") === "on",
-        }),
-      });
-      setStatus(res.ok ? "success" : "error");
-    } catch {
-      setStatus("error");
-    }
+    const result = await submitLead({
+      type: "newsletter",
+      name: email,
+      email,
+      consent: form.get("consent") === "on",
+    });
+    setStatus(result.success ? "success" : "error");
   }
 
   return (

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { CRM_CONSENT_TEXT } from "@/lib/crm";
+import { CRM_CONSENT_TEXT, submitLead } from "@/lib/crm";
 import { fieldLabelClass, fieldInputClass, submitButtonClass, submitArrowClass } from "@/components/ui/form-styles";
 
 type Step = "address" | "details" | "success";
@@ -45,37 +45,34 @@ export function ValuationForm() {
     setError(null);
 
     const form = new FormData(e.currentTarget);
-    const payload = {
-      address: {
-        street: address,
-        city: String(form.get("city") ?? "Brownwood"),
-        state: "TX",
-        zip: String(form.get("zip") ?? ""),
-      },
+    const city = String(form.get("city") ?? "Brownwood");
+    const zip = String(form.get("zip") ?? "");
+    const phone = String(form.get("phone") ?? "");
+    const interest = String(form.get("interest") ?? "selling");
+    const consent = form.get("consent") === "on";
+
+    if (!consent) {
+      setError("Consent is required.");
+      setStatus("idle");
+      return;
+    }
+
+    const result = await submitLead({
+      type: "valuation",
       name,
       email,
-      phone: String(form.get("phone") ?? ""),
-      interest: String(form.get("interest") ?? "selling"),
-      consent: form.get("consent") === "on",
-    };
+      phone,
+      consent,
+      message: `Home valuation request for ${address}, ${city}, TX ${zip}`,
+      meta: { interest },
+    });
 
-    try {
-      const res = await fetch("/api/valuation", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        setError(data.error ?? "Something went wrong. Please try again.");
-        setStatus("idle");
-        return;
-      }
-      setStep("success");
-    } catch {
-      setError("Something went wrong. Please try again.");
+    if (!result.success) {
+      setError(result.error ?? "Something went wrong. Please try again.");
       setStatus("idle");
+      return;
     }
+    setStep("success");
   }
 
   if (step === "success") {

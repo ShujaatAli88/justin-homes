@@ -6,7 +6,7 @@ Next.js (App Router) + TypeScript + Tailwind CSS site for Cadenhead Realty Group
 ## Status
 
 **Built so far:** project foundation (design tokens, fonts, motion helpers),
-integration stubs (`/lib/valuation.ts`, `/lib/crm.ts`), the Home page
+the integration seam `/lib/crm.ts`, the Home page
 (animated hero, strategic-approach cards, meet-the-agent, trust-strip logo
 marquee, testimonials carousel, and a live IDX active-listings embed), a
 dedicated `/home-valuation` page for the "What's My Home Worth?" lead-capture
@@ -53,13 +53,16 @@ Open http://localhost:3000.
   `testimonials.ts` holds real client-supplied content (plus live Supabase
   reviews merged in, see below); the rest are still placeholder/mock
 - `lib/` — integration seams:
-  - `valuation.ts` — "What's My Home Worth?" lead capture; deliberately does
-    not generate an automated online estimate — Justin follows up personally
   - `crm.ts` — lead submission via FormSubmit (formsubmit.co), a free-forever
     form-to-email service that needs no API key/account — just the
-    destination email in the request URL. Logs to console instead of
-    actually posting whenever `NODE_ENV !== "production"`, so local dev
-    never spams the real inbox
+    destination email in the request URL. `submitLead()` is called directly
+    from client components (`ContactModal.tsx`, `ValuationForm.tsx`,
+    `Newsletter.tsx`) rather than through one of our own API routes — see
+    "Lead Delivery (FormSubmit)" below for why that matters. Logs to console
+    instead of actually posting whenever `NODE_ENV !== "production"`, so
+    local dev never spams the real inbox. The "What's My Home Worth?" flow
+    deliberately does not generate an automated online estimate — Justin
+    follows up personally
   - `reviews.ts` — customer review submission, backed by Supabase
   - `motion.ts` — shared Framer Motion variants
 
@@ -108,23 +111,41 @@ variable at all** — see "Lead Delivery (FormSubmit)" below.
 
 ## Lead Delivery (FormSubmit)
 
-The Contact modal and the "What's My Home Worth?" form both submit through
-`lib/crm.ts`, which POSTs to FormSubmit (formsubmit.co) — a free-forever
-form-to-email service that needs no account, no API key, and has no volume
-cap at this site's scale. The destination email (`agent.email` —
-`Justin.cadenhead@kw.com`) is just part of the request URL
-(`https://formsubmit.co/ajax/<email>`), nothing to configure.
+The Contact modal, the "What's My Home Worth?" form, and the newsletter
+signup all call `submitLead()` from `lib/crm.ts`, which POSTs to FormSubmit
+(formsubmit.co) — a free-forever form-to-email service that needs no
+account, no API key, and has no volume cap at this site's scale. The
+destination email (`agent.email` — `Justin.cadenhead@kw.com`) is just part
+of the request URL (`https://formsubmit.co/ajax/<email>`), nothing to
+configure.
+
+**Important: `submitLead()` is called directly from the client components,
+not through one of our own `/api/*` routes.** That wasn't the original
+design — leads used to POST to `/api/leads` / `/api/valuation`, which then
+relayed the request to FormSubmit server-side. That relay is what broke:
+FormSubmit sits behind Cloudflare, and Cloudflare's bot protection flagged
+the server-to-server request from Vercel's serverless function as bot
+traffic and blocked it with a JS challenge page ("Just a moment...") instead
+of processing it — a plain backend `fetch()` can never solve that challenge.
+The fix was to remove the server hop entirely and call FormSubmit straight
+from the visitor's own browser, which is also how FormSubmit is actually
+meant to be used (its whole model assumes it's embedded directly in a page
+with no backend at all). **Don't reintroduce a server-side proxy for this
+— it will silently start failing behind Cloudflare's bot check again.**
 
 **One-time activation step:** the first submission ever sent to a given
 destination email triggers a confirmation email from FormSubmit with an
 "Activate Form" link. Justin needs to click that once — after that, every
 future submission delivers immediately with no further action needed. This
-will happen automatically the first time a real visitor submits either form
-on the live production site.
+will happen automatically the first time a real visitor submits any of the
+three forms on the live production site.
 
 Local development never triggers this: `submitLead()` only logs to the
 console when `NODE_ENV !== "production"` (i.e. `npm run dev`), so testing
-locally can't spam the inbox or re-trigger the activation flow.
+locally can't spam the inbox or re-trigger the activation flow. To actually
+exercise the real FormSubmit call locally, run a production build
+(`npm run build && npm run start`) — that really does deliver, so use
+obviously-fake test data.
 
 The home valuation form deliberately does not compute or show an automated
 online estimate — it never did anything more than generate a fake
