@@ -62,25 +62,52 @@ export async function submitLead(lead: Lead): Promise<CrmSubmitResult> {
   }
 
   try {
-    const res = await fetch(`https://formsubmit.co/ajax/${agent.email}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json", Accept: "application/json" },
-      body: JSON.stringify({
-        _subject: `${LEAD_TYPE_LABEL[lead.type]} — ${lead.name}`,
-        _replyto: lead.email,
-        _template: "table",
-        name: lead.name,
-        email: lead.email,
-        phone: lead.phone ?? "",
-        message: buildLeadMessage(lead),
-      }),
-    });
-    const data = await res.json();
+    // A hard timeout matters here: if FormSubmit ever hangs, an un-timed-out
+    // fetch can run past Vercel's own function execution limit, which kills
+    // the function at the platform level (a raw HTML 502) before our own
+    // try/catch ever gets a chance to return a clean JSON error.
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 8000);
+
+    let res: Response;
+    try {
+      res = await fetch(`https://formsubmit.co/ajax/${agent.email}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          _subject: `${LEAD_TYPE_LABEL[lead.type]} — ${lead.name}`,
+          _replyto: lead.email,
+          _template: "table",
+          name: lead.name,
+          email: lead.email,
+          phone: lead.phone ?? "",
+          message: buildLeadMessage(lead),
+        }),
+        signal: controller.signal,
+      });
+    } finally {
+      clearTimeout(timeout);
+    }
+
+    const rawBody = await res.text();
+    let data: { success?: boolean | string; message?: string } = {};
+    try {
+      data = JSON.parse(rawBody);
+    } catch {
+      // FormSubmit occasionally responds with a non-JSON body (e.g. an HTML
+      // redirect page while a brand-new destination email is still pending
+      // activation) — treat that as a soft failure instead of throwing.
+      return { success: false, error: `FormSubmit returned a non-JSON response: ${rawBody.slice(0, 200)}` };
+    }
+
     if (!res.ok || data.success === false || data.success === "false") {
       return { success: false, error: data.message ?? `FormSubmit responded with ${res.status}` };
     }
     return { success: true };
   } catch (err) {
+    if (err instanceof Error && err.name === "AbortError") {
+      return { success: false, error: "FormSubmit did not respond in time. Please try again." };
+    }
     return { success: false, error: err instanceof Error ? err.message : "Unknown error submitting lead" };
   }
 }
