@@ -5,9 +5,9 @@ import { motion } from "framer-motion";
 import { IDXEmbed } from "@/components/IDXEmbed";
 import { staggerContainer, fadeInUp, viewportOnce } from "@/lib/motion";
 
-// NTREIS Matrix IDX "Active Listings" embed (idx=92674587) — same live feed
+// NTREIS Matrix IDX "Active Listings" embed (idx=6fd645a0) — same live feed
 // used on the homepage; this page just gives it a dedicated, linkable URL.
-const ACTIVE_LISTINGS_IDX = "92674587";
+const ACTIVE_LISTINGS_IDX = "6fd645a0";
 
 const highlights = ["Live MLS Feed", "Auto-Updates Daily", "Brownwood & Early, TX"];
 

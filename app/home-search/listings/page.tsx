@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import { IDXEmbed } from "@/components/IDXEmbed";
 
-// NTREIS Matrix IDX "Map Search" embed (idx=eddb4588) — live, map-based MLS
+// NTREIS Matrix IDX "Map Search" embed (idx=23e645a1) — live, map-based MLS
 // search served cross-domain from the client's MLS; content auto-updates on
 // their end, nothing here is mock data. See components/IDXEmbed.tsx for the
 // domain-restriction note (blank on localhost, live on cadenheadrealty.com).
-const MAP_SEARCH_IDX = "eddb4588";
+// Recreated under Justin's own Matrix account (2026-08) so it's fully
+// self-manageable — the original idx=eddb4588 wasn't owned by his login.
+const MAP_SEARCH_IDX = "23e645a1";
 
 const highlights = ["Live Map Search", "Auto-Updates Daily", "Brownwood & Early, TX"];
 

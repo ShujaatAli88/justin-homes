@@ -158,16 +158,34 @@ contact details to Justin, who follows up personally by email.
 Property search is powered by two live NTREIS Matrix IDX widgets, embedded
 as cross-domain iframes via `components/IDXEmbed.tsx`:
 
-- **Active Listings** (`idx=44844573`) — used on the homepage "Active
+- **Active Listings** (`idx=6fd645a0`) — used on the homepage "Active
   Listings" section (`components/sections/ActiveListings.tsx`) and on
-  `/properties` (`app/properties/page.tsx`).
-- **Map Search** (`idx=64914572`) — used on `/home-search/listings`
+  `/properties` (`components/sections/PortfolioHero.tsx`).
+- **Map Search** (`idx=23e645a1`) — used on `/home-search/listings`
   (`app/home-search/listings/page.tsx`).
 
 Both feeds are live and update automatically on the MLS side — there is no
 mock data, caching layer, or scraping involved; the iframe just renders
 whatever NTREIS serves. Per MLS compliance, the embedded content is never
 modified, proxied, or scraped — it's framed as-is.
+
+**History — why these display IDs changed twice:** the original two IDs
+(`idx=44844573` / `idx=64914572`) turned out to belong to nobody's own
+Matrix account (Justin's login showed "0 active, 0 inactive" IDX pages), so
+there was no way to ever edit them. A second pair (`idx=92674587` /
+`idx=eddb4588`) had the same problem. The current pair
+(`idx=6fd645a0` / `idx=23e645a1`, created 2026-08) was created directly
+under Justin's own Matrix account ("My Matrix" → IDX Configuration), so
+**it's fully self-manageable now** — he can edit the Search Form template,
+Referring Page, and theme colors himself going forward. Widget colors are
+set to match the brand: page background `#ffffff`, header background
+`#0a0a0a`, header font `#e42d2d`.
+
+For "Map Search," the Search Form was deliberately set to **"IDX Search"**
+rather than the default **"Portal Search"** template — Portal Search
+auto-opens a Filters modal on load, which wasn't wanted; IDX Search doesn't.
+If a future edit resets this back to Portal Search, that's most likely why
+the filters start auto-opening again.
 
 **Sizing:** NTREIS doesn't send a resize handshake, so the iframe can't
 auto-fit its content height. `IDXEmbed` instead pins a `minHeight` (taller on
@@ -176,27 +194,24 @@ iframe's own internal scrollbar handle any overflow — deliberately not a
 fixed aspect-ratio box, which would clip the search/listing UI.
 
 **Domain restriction — read before "fixing" a 403 in the embed:** NTREIS
-Matrix locks these widgets to a whitelisted domain. On `localhost` or any
+Matrix locks these widgets to a whitelisted Referring Page domain (set to
+`https://cadenheadrealty.com` on both widgets above). On `localhost` or any
 preview/staging domain, the iframe loads a real `403 Forbidden` response
 from NTREIS (not a blank frame) — that's expected, not a bug in this app.
 
-**Confirmed 2026-07: still 403 on `cadenheadrealty.com` itself.** After
-deploying this integration to production (Vercel auto-deploy on push to
-`main`), `cadenheadrealty.com/properties` still shows `403 Forbidden` inside
-the embed. Since the deploy pipeline and the code are both confirmed
-working (the page renders, the iframe src is correct), this rules out
-everything on the app side — the remaining cause is that NTREIS hasn't
-whitelisted `cadenheadrealty.com` for `idx=44844573` / `idx=64914572` yet.
-**This requires the client (or their MLS/NTREIS Matrix admin) to contact
-NTREIS/MLS support** to confirm the domain is approved for both display
-IDs — it's account-level config on NTREIS's side, not fixable from this
-codebase. Worth double-checking whether it's whitelisted as
-`cadenheadrealty.com` vs `www.cadenheadrealty.com` specifically, since some
-IDX systems treat those as distinct domains.
-
-Since there's no structured per-listing data anymore (just the embed), there
-is no `/properties/[slug]` detail page — clicking into a specific listing
-happens inside the NTREIS widget itself.
+Since there's no structured per-listing data (just the embed), there is no
+`/properties/[slug]` detail page with its own shareable URL — clicking into
+a specific listing happens inside the NTREIS widget itself, and its address
+bar never changes. Getting real, individually-shareable property URLs on
+our own domain would require either (a) NTREIS RESO Web API/RETS access — a
+different, larger grant than the IDX display widgets above, typically
+requiring a separate vendor/data-license agreement — so real per-listing
+data can be pulled and rendered as actual pages, or (b) a manually-maintained
+"Featured Listings" set (client supplies each listing's info by hand,
+similar to how `data/listings.ts` worked earlier in this project, before it
+was replaced by these live embeds) with real detail pages and a working
+"Copy Property Link" button, at the cost of needing manual upkeep instead of
+auto-syncing with the MLS.
 
 ## Customer Reviews (Supabase)
 

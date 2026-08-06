@@ -6,9 +6,11 @@ import { Button } from "@/components/ui/Button";
 import { IDXEmbed } from "@/components/IDXEmbed";
 import { fadeInUp, viewportOnce } from "@/lib/motion";
 
-// NTREIS Matrix IDX "Active Listings" embed (idx=92674587) — live MLS feed,
+// NTREIS Matrix IDX "Active Listings" embed (idx=6fd645a0) — live MLS feed,
 // auto-updates on the client's end. Replaces the old mock listing-card grid.
-const ACTIVE_LISTINGS_IDX = "92674587";
+// Recreated under Justin's own Matrix account (2026-08) so it's fully
+// self-manageable — the original idx=92674587 wasn't owned by his login.
+const ACTIVE_LISTINGS_IDX = "6fd645a0";
 
 const highlights = ["Direct MLS Feed", "Auto-Updates Daily", "Brownwood & Early, TX"];
 
