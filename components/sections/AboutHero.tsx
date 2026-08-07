@@ -30,18 +30,18 @@ export function AboutHero() {
           animate="visible"
           className="text-center lg:text-left"
         >
-          <motion.p variants={fadeInUp} className="font-nav text-xs uppercase tracking-[0.4em] text-kw-red">
+          <motion.p variants={fadeInUp} className="font-nav text-sm tracking-wide text-kw-red">
             Meet the Team
           </motion.p>
           <motion.h1
             variants={fadeInUp}
-            className="font-nav mt-4 text-4xl uppercase leading-[1.1] tracking-wide sm:text-5xl lg:text-6xl"
+            className="font-nav mt-4 text-4xl leading-[1.1] sm:text-5xl lg:text-6xl"
           >
             Abby &amp; Justin
             <br />
             Cadenhead
           </motion.h1>
-          <motion.p variants={fadeInUp} className="mt-4 text-sm font-semibold uppercase tracking-widest text-gray-400">
+          <motion.p variants={fadeInUp} className="mt-4 text-sm font-semibold text-gray-400">
             Your Central Texas Real Estate Team
           </motion.p>
           <motion.p variants={fadeInUp} className="mx-auto mt-6 max-w-lg text-base leading-relaxed text-gray-300 lg:mx-0">
@@ -63,7 +63,7 @@ export function AboutHero() {
             <div className="relative aspect-[4/5] w-48 overflow-hidden sm:w-56">
               <SmartImage src={justin.headshot} alt={justin.name} label="Justin headshot" />
             </div>
-            <p className="font-nav bg-white px-3 py-2 text-center text-[0.65rem] uppercase tracking-widest text-black">
+            <p className="font-nav bg-white px-3 py-2 text-center text-sm text-black">
               {justin.name.split(" ")[0]}
             </p>
           </div>
@@ -72,7 +72,7 @@ export function AboutHero() {
             <div className="relative aspect-[4/5] w-48 overflow-hidden sm:w-56">
               <SmartImage src={abby.headshot} alt={abby.name} label="Abby headshot" />
             </div>
-            <p className="font-nav bg-kw-red px-3 py-2 text-center text-[0.65rem] uppercase tracking-widest text-white">
+            <p className="font-nav bg-kw-red px-3 py-2 text-center text-sm text-white">
               {abby.name.split(" ")[0]}
             </p>
           </div>

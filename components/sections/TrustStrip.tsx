@@ -53,7 +53,7 @@ function BadgeItem({ badge }: { badge: Badge }) {
   return (
     <span className="flex items-center gap-3 transition-transform duration-300 hover:scale-110">
       <BadgeIcon icon={badge.icon} />
-      <span className="font-nav text-left text-xs uppercase leading-tight tracking-widest text-white">
+      <span className="font-nav text-left text-sm leading-tight text-white">
         {badge.label}
         {badge.sublabel && (
           <>
@@ -75,7 +75,7 @@ export function TrustStrip() {
       <div aria-hidden className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-kw-red/70 to-transparent" />
       <div aria-hidden className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-kw-red/70 to-transparent" />
 
-      <p className="font-nav relative mb-8 text-center text-xs uppercase tracking-[0.4em] text-white/50">
+      <p className="font-nav relative mb-8 text-center text-sm tracking-wide text-white/50">
         Trusted &amp; Certified
       </p>
 

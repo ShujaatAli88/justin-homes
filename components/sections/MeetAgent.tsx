@@ -82,7 +82,7 @@ export function MeetAgent() {
             />
 
             <span className="absolute right-4 top-4 flex h-16 w-16 items-center justify-center rounded-full bg-white text-center shadow-lg sm:h-20 sm:w-20">
-              <span className="font-nav text-[0.6rem] uppercase leading-tight tracking-widest text-black">
+              <span className="font-nav text-xs leading-tight text-black">
                 Keller
                 <br />
                 Williams
@@ -94,9 +94,9 @@ export function MeetAgent() {
             <div className="absolute bottom-0 left-0 max-w-[85%] bg-black px-8 py-7 sm:px-10 sm:py-8">
               <div className="flex items-center gap-3">
                 <span aria-hidden className="h-px w-10 bg-kw-red" />
-                <span className="text-xs font-semibold uppercase tracking-[0.3em] text-gray-300">Meet</span>
+                <span className="text-sm font-semibold tracking-wide text-gray-300">Meet</span>
               </div>
-              <h2 className="font-nav mt-3 text-2xl uppercase tracking-wide text-white sm:text-3xl lg:text-4xl">
+              <h2 className="font-nav mt-3 text-2xl text-white sm:text-3xl lg:text-4xl">
                 {agent.name}
               </h2>
             </div>
@@ -109,7 +109,7 @@ export function MeetAgent() {
           whileInView="visible"
           viewport={viewportOnce}
         >
-          <motion.p variants={fadeInUp} className="text-xs font-semibold uppercase tracking-widest text-gray-500">
+          <motion.p variants={fadeInUp} className="text-sm font-semibold text-gray-500">
             {agent.title} &middot; {agent.brokerage}
           </motion.p>
 
@@ -140,7 +140,7 @@ export function MeetAgent() {
             variants={fadeInUp}
             className="mt-10 flex flex-wrap items-center justify-between gap-6 border-t-2 border-kw-red bg-white px-6 py-5 shadow-sm"
           >
-            <div className="flex items-baseline gap-2 text-xs font-semibold uppercase tracking-widest text-gray-500">
+            <div className="flex items-baseline gap-2 text-sm font-semibold text-gray-500">
               License <span className="text-sm font-normal tracking-normal text-gray-700">#{agent.licenseNumber}</span>
             </div>
             <div className="flex gap-3">

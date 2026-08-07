@@ -8,7 +8,7 @@ export function Card({ className, children }: { className?: string; children: Re
 
 export function SectionEyebrow({ children }: { children: React.ReactNode }) {
   return (
-    <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-kw-red">{children}</p>
+    <p className="mb-3 text-sm font-semibold tracking-wide text-kw-red">{children}</p>
   );
 }
 

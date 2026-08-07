@@ -39,7 +39,7 @@ export function ValuationHero() {
         className="container-xl relative grid gap-12 text-white lg:grid-cols-2 lg:items-center lg:gap-16"
       >
         <div className="text-center lg:text-left">
-          <motion.p variants={fadeInUp} className="font-nav text-xs uppercase tracking-[0.4em] text-kw-red">
+          <motion.p variants={fadeInUp} className="font-nav text-sm tracking-wide text-kw-red">
             Thinking About Selling?
           </motion.p>
           <motion.span
@@ -49,7 +49,7 @@ export function ValuationHero() {
           />
           <motion.h1
             variants={staggerContainer(0.07)}
-            className="font-nav mt-5 flex flex-wrap justify-center gap-x-3 text-3xl uppercase tracking-widest sm:text-5xl lg:justify-start"
+            className="font-nav mt-5 flex flex-wrap justify-center gap-x-3 text-3xl sm:text-5xl lg:justify-start"
           >
             {headline.map((word, i) => (
               <motion.span key={i} variants={fadeInUp} className="inline-block">
@@ -65,7 +65,7 @@ export function ValuationHero() {
             {features.map((f) => (
               <li
                 key={f}
-                className="flex items-center gap-2 border border-white/15 bg-white/5 px-4 py-2 text-xs font-semibold uppercase tracking-widest backdrop-blur-sm transition-colors hover:border-kw-red/50 hover:bg-white/10 sm:text-sm"
+                className="flex items-center gap-2 border border-white/15 bg-white/5 px-4 py-2 text-sm font-semibold backdrop-blur-sm transition-colors hover:border-kw-red/50 hover:bg-white/10"
               >
                 <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4 text-kw-red">
                   <path d="M16.7 5.3a1 1 0 0 1 0 1.4l-8 8a1 1 0 0 1-1.4 0l-4-4a1 1 0 1 1 1.4-1.4L8 12.6l7.3-7.3a1 1 0 0 1 1.4 0Z" />

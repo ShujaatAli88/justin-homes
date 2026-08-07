@@ -124,8 +124,8 @@ export function ContactModal({ isOpen, onClose }: { isOpen: boolean; onClose: ()
                   <SmartImage src={agent.headshot} alt={agent.name} label="Agent" />
                 </span>
                 <div>
-                  <p className="font-nav text-xs uppercase tracking-[0.4em] text-kw-red">Let&apos;s Connect</p>
-                  <h2 className="font-nav mt-1 text-3xl uppercase tracking-widest sm:text-4xl">Get In Touch</h2>
+                  <p className="font-nav text-sm tracking-wide text-kw-red">Let&apos;s Connect</p>
+                  <h2 className="font-nav mt-1 text-3xl sm:text-4xl">Get In Touch</h2>
                 </div>
               </div>
 
@@ -167,7 +167,7 @@ export function ContactModal({ isOpen, onClose }: { isOpen: boolean; onClose: ()
             >
               {status === "success" ? (
                 <div className="py-10 text-center">
-                  <p className="font-nav text-2xl uppercase tracking-widest text-black">Message Sent</p>
+                  <p className="font-nav text-2xl text-black">Message Sent</p>
                   <p className="mt-3 text-sm text-gray-600">
                     Thanks for reaching out &mdash; {agent.name} will be in touch shortly.
                   </p>

@@ -16,7 +16,7 @@ function RecapField({ label, value, onEdit }: { label: string; value: string; on
         <button
           type="button"
           onClick={onEdit}
-          className="shrink-0 text-xs font-semibold uppercase tracking-widest text-kw-red transition-transform hover:scale-105 hover:underline"
+          className="shrink-0 text-sm font-semibold text-kw-red transition-transform hover:scale-105 hover:underline"
         >
           Edit
         </button>
@@ -83,7 +83,7 @@ export function ValuationForm() {
             <path d="M5 13l4 4L19 7" />
           </svg>
         </div>
-        <p className="mt-5 font-nav text-xs uppercase tracking-[0.3em] text-kw-red">Info Sent</p>
+        <p className="mt-5 font-nav text-sm tracking-wide text-kw-red">Info Sent</p>
         <h3 className="mt-2 text-2xl font-bold text-black sm:text-3xl">Thanks, {name.split(" ")[0]}!</h3>
         <p className="mt-3 text-sm text-gray-600">
           Your property details have been sent directly to Justin &mdash; he&apos;ll personally follow up

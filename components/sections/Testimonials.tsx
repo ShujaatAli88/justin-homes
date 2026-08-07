@@ -175,7 +175,7 @@ export function Testimonials() {
           </span>
           <span className="text-lg font-bold text-white">{avgRating.toFixed(1)}</span>
           <StarRow rating={avgRating} />
-          <span className="border border-white/15 bg-white/5 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-gray-300">
+          <span className="border border-white/15 bg-white/5 px-3 py-1 text-sm font-semibold text-gray-300">
             {total} review{total === 1 ? "" : "s"}
           </span>
         </motion.div>
@@ -208,7 +208,7 @@ export function Testimonials() {
                   <motion.span
                     initial={{ opacity: 0, y: -8 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="absolute right-4 top-4 z-10 flex items-center gap-1.5 rounded-full bg-kw-red px-3 py-1 text-[0.65rem] font-bold uppercase tracking-widest text-white shadow-lg"
+                    className="absolute right-4 top-4 z-10 flex items-center gap-1.5 rounded-full bg-kw-red px-3 py-1 text-xs font-bold tracking-wide text-white shadow-lg"
                   >
                     <span className="h-1.5 w-1.5 animate-ping rounded-full bg-white" />
                     Just In
@@ -244,13 +244,13 @@ export function Testimonials() {
                     <button
                       type="button"
                       onClick={() => setExpanded((e) => !e)}
-                      className="mt-3 text-xs font-semibold uppercase tracking-widest text-kw-red hover:underline"
+                      className="mt-3 text-sm font-semibold text-kw-red hover:underline"
                     >
                       {expanded ? "Read Less" : "Read More"}
                     </button>
                   )}
                 </div>
-                <p className="relative mt-8 pb-8 text-xs uppercase tracking-widest text-gray-400">
+                <p className="relative mt-8 pb-8 text-sm tracking-wide text-gray-400">
                   {current.date}
                 </p>
 
@@ -305,7 +305,7 @@ export function Testimonials() {
               }}
               transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
             />
-            <span className="relative inline-flex items-center gap-3 rounded-full bg-black px-8 py-4 font-nav text-sm font-semibold uppercase tracking-widest text-white ring-1 ring-kw-red/30 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:shadow-[0_15px_40px_rgba(206,1,31,0.4)]">
+            <span className="relative inline-flex items-center gap-3 rounded-full bg-black px-8 py-4 font-nav text-base font-semibold text-white ring-1 ring-kw-red/30 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:shadow-[0_15px_40px_rgba(206,1,31,0.4)]">
               <svg viewBox="0 0 24 24" className="h-4 w-4 text-kw-red" fill="currentColor">
                 <path d="M12 2.5l3.09 6.26 6.91.99-5 4.87 1.18 6.88L12 17.77l-6.18 3.73L7 14.62l-5-4.87 6.91-.99L12 2.5z" />
               </svg>

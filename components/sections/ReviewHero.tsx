@@ -68,7 +68,7 @@ export function ReviewHero() {
           animate="visible"
           className="text-center text-white lg:text-left"
         >
-          <motion.p variants={fadeInUp} className="font-nav text-xs uppercase tracking-[0.4em] text-kw-red">
+          <motion.p variants={fadeInUp} className="font-nav text-sm tracking-wide text-kw-red">
             Your Voice Matters
           </motion.p>
           <motion.h1 variants={fadeInUp} className="mt-3 text-2xl font-bold tracking-tight sm:text-4xl">
@@ -85,7 +85,7 @@ export function ReviewHero() {
             {highlights.map((h) => (
               <li
                 key={h}
-                className="flex items-center gap-2 border border-white/15 bg-white/5 px-4 py-2 text-xs font-semibold uppercase tracking-widest backdrop-blur-sm sm:text-sm"
+                className="flex items-center gap-2 border border-white/15 bg-white/5 px-4 py-2 text-sm font-semibold backdrop-blur-sm"
               >
                 <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4 text-kw-red">
                   <path d="M16.7 5.3a1 1 0 0 1 0 1.4l-8 8a1 1 0 0 1-1.4 0l-4-4a1 1 0 1 1 1.4-1.4L8 12.6l7.3-7.3a1 1 0 0 1 1.4 0Z" />

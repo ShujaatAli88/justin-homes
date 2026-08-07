@@ -61,7 +61,7 @@ function TeamCard({ member }: { member: TeamMember }) {
           <span aria-hidden className="pointer-events-none absolute inset-0 rounded-full ring-2 ring-kw-red/40" />
         </span>
         <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-kw-red">{member.role}</p>
+          <p className="text-sm font-semibold text-kw-red">{member.role}</p>
           <h3 className="text-xl font-bold text-black">{member.name}</h3>
           <p className="text-xs text-gray-500">
             {member.brokerage} &middot; {member.location}

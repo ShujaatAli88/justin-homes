@@ -46,7 +46,7 @@ export function Footer() {
         </div>
 
         <div>
-          <p className="text-sm font-semibold uppercase tracking-wide text-gray-400">Navigate</p>
+          <p className="text-sm font-semibold text-gray-400">Navigate</p>
           <ul className="mt-4 space-y-2 text-sm">
             {primaryNav.map((item) =>
               isNavGroup(item) ? (
@@ -69,7 +69,7 @@ export function Footer() {
         </div>
 
         <div>
-          <p className="text-sm font-semibold uppercase tracking-wide text-gray-400">Resources</p>
+          <p className="text-sm font-semibold text-gray-400">Resources</p>
           <ul className="mt-4 space-y-2 text-sm">
             <li>
               <Link href="/home-valuation" className="hover:text-kw-red">
@@ -90,7 +90,7 @@ export function Footer() {
         </div>
 
         <div>
-          <p className="text-sm font-semibold uppercase tracking-wide text-gray-400">Contact</p>
+          <p className="text-sm font-semibold text-gray-400">Contact</p>
           <ul className="mt-4 space-y-2 text-sm text-gray-300">
             <li>{agent.name}, {agent.title}</li>
             <li>{agent.brokerage}</li>

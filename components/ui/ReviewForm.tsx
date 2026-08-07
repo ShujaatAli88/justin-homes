@@ -32,7 +32,7 @@ const MOOD_COPY: Record<number, string> = {
 const ROLE_OPTIONS = ["Buyer", "Seller", "Buyer & Seller", "Renter"] as const;
 
 const backButtonClass =
-  "shrink-0 rounded-full border-2 border-gray-200 px-6 py-3 text-xs font-semibold uppercase tracking-widest text-gray-500 transition-colors hover:border-black hover:text-black";
+  "shrink-0 rounded-full border-2 border-gray-200 px-6 py-3 text-sm font-semibold text-gray-500 transition-colors hover:border-black hover:text-black";
 
 function StepDot({ index, active, done, label }: { index: number; active: boolean; done: boolean; label: string }) {
   return (
@@ -49,7 +49,7 @@ function StepDot({ index, active, done, label }: { index: number; active: boolea
         {done ? "✓" : index + 1}
       </span>
       <span
-        className={`text-center text-[0.6rem] font-semibold uppercase tracking-widest ${
+        className={`text-center text-xs font-semibold ${
           active || done ? "text-black" : "text-gray-300"
         }`}
       >
@@ -188,7 +188,7 @@ export function ReviewForm() {
               exit={{ opacity: 0, x: -20 }}
               transition={{ duration: 0.3 }}
             >
-              <p className="font-nav text-xs uppercase tracking-[0.3em] text-kw-red">Step 1 of 3</p>
+              <p className="font-nav text-sm tracking-wide text-kw-red">Step 1 of 3</p>
               <h3 className="mt-1 text-lg font-bold text-black sm:text-xl">How was your experience?</h3>
               <div className="mt-5 flex justify-center gap-1" onMouseLeave={() => setHoverRating(0)}>
                 {[1, 2, 3, 4, 5].map((n) => (
@@ -215,7 +215,7 @@ export function ReviewForm() {
               transition={{ duration: 0.3 }}
               className="space-y-3"
             >
-              <p className="font-nav text-xs uppercase tracking-[0.3em] text-kw-red">Step 2 of 3</p>
+              <p className="font-nav text-sm tracking-wide text-kw-red">Step 2 of 3</p>
               <h3 className="text-lg font-bold text-black sm:text-xl">A little about you</h3>
 
               <div className="group">
@@ -247,7 +247,7 @@ export function ReviewForm() {
                       key={option}
                       type="button"
                       onClick={() => setRole(option)}
-                      className={`rounded-full border-2 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-widest transition-all duration-300 ${
+                      className={`rounded-full border-2 px-3.5 py-1.5 text-sm font-semibold transition-all duration-300 ${
                         role === option
                           ? "border-kw-red bg-kw-red text-white"
                           : "border-gray-200 bg-white text-gray-500 hover:border-kw-red hover:text-kw-red"
@@ -272,7 +272,7 @@ export function ReviewForm() {
               transition={{ duration: 0.3 }}
               className="space-y-2.5"
             >
-              <p className="font-nav text-xs uppercase tracking-[0.3em] text-kw-red">Step 3 of 3</p>
+              <p className="font-nav text-sm tracking-wide text-kw-red">Step 3 of 3</p>
               <h3 className="text-lg font-bold text-black sm:text-xl">Tell us your story</h3>
 
               <div className="group">

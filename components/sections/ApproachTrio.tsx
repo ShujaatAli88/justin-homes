@@ -69,7 +69,7 @@ export function ApproachTrio() {
                     aria-hidden
                     className="mb-3 block h-px w-10 bg-kw-red transition-all duration-500 group-hover:w-16"
                   />
-                  <h3 className="font-nav text-lg uppercase leading-snug tracking-wide text-white sm:text-xl">
+                  <h3 className="font-nav text-lg leading-snug text-white sm:text-xl">
                     {item.title}
                   </h3>
                 </div>
@@ -93,7 +93,7 @@ export function ApproachTrio() {
             className="absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(206,1,31,0.35)_0%,transparent_45%),radial-gradient(circle_at_85%_80%,rgba(206,1,31,0.35)_0%,transparent_45%)]"
           />
           <div className="relative">
-            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-kw-red">
+            <p className="text-sm font-semibold tracking-wide text-kw-red">
               Curious What Your Home Is Worth?
             </p>
             <h3 className="mx-auto mt-3 max-w-xl text-2xl font-bold text-white sm:text-3xl">

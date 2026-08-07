@@ -85,7 +85,7 @@ export function MobileMenu() {
                       href={item.href}
                       onClick={() => setOpen(false)}
                       className={cn(
-                        "font-nav text-3xl font-semibold uppercase tracking-wide transition-colors hover:text-kw-red",
+                        "font-nav text-3xl font-semibold transition-colors hover:text-kw-red",
                         active && "text-kw-red"
                       )}
                     >
@@ -101,19 +101,19 @@ export function MobileMenu() {
                     setOpen(false);
                     openContactModal();
                   }}
-                  className="inline-block bg-kw-red px-8 py-4 font-nav text-sm font-semibold uppercase tracking-widest text-white hover:bg-kw-red-dark"
+                  className="inline-block bg-kw-red px-8 py-4 font-nav text-base font-semibold text-white hover:bg-kw-red-dark"
                 >
                   {ctaLink.label}
                 </button>
               </motion.div>
               <motion.div variants={fadeInUp} className="flex items-center gap-5 pt-6">
-                <a href={telHref(agent.phone)} className="font-nav text-sm font-semibold tracking-widest text-kw-red">
+                <a href={telHref(agent.phone)} className="font-nav text-sm font-semibold text-kw-red">
                   {agent.phone}
                 </a>
                 <Link
                   href="/reviews"
                   onClick={() => setOpen(false)}
-                  className="flex items-center gap-1.5 rounded-full border border-kw-red/40 px-3 py-1.5 font-nav text-xs font-semibold uppercase tracking-widest text-kw-red"
+                  className="flex items-center gap-1.5 rounded-full border border-kw-red/40 px-3 py-1.5 font-nav text-sm font-semibold text-kw-red"
                 >
                   <svg viewBox="0 0 24 24" className="h-3 w-3" fill="currentColor">
                     <path d="M12 2.5l3.09 6.26 6.91.99-5 4.87 1.18 6.88L12 17.77l-6.18 3.73L7 14.62l-5-4.87 6.91-.99L12 2.5z" />

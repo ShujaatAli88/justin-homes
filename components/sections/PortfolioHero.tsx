@@ -17,7 +17,7 @@ export function PortfolioHero() {
       <div className="relative overflow-hidden bg-black pb-20 pt-32 sm:pb-24 sm:pt-40">
         <span
           aria-hidden
-          className="font-nav pointer-events-none absolute -top-4 left-1/2 -translate-x-1/2 select-none whitespace-nowrap text-[7rem] font-bold uppercase leading-none text-white/[0.03] sm:text-[11rem]"
+          className="font-nav pointer-events-none absolute -top-4 left-1/2 -translate-x-1/2 select-none whitespace-nowrap text-[7rem] font-bold leading-none text-white/[0.03] sm:text-[11rem]"
         >
           Portfolio
         </span>
@@ -40,7 +40,7 @@ export function PortfolioHero() {
           animate="visible"
           className="container-xl relative text-center"
         >
-          <motion.p variants={fadeInUp} className="font-nav text-xs uppercase tracking-[0.4em] text-kw-red">
+          <motion.p variants={fadeInUp} className="font-nav text-sm tracking-wide text-kw-red">
             Portfolio
           </motion.p>
           <motion.h1
@@ -59,7 +59,7 @@ export function PortfolioHero() {
             {highlights.map((h) => (
               <li
                 key={h}
-                className="flex items-center gap-2 border border-white/15 bg-white/5 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white backdrop-blur-sm sm:text-sm"
+                className="flex items-center gap-2 border border-white/15 bg-white/5 px-4 py-2 text-sm font-semibold text-white backdrop-blur-sm"
               >
                 <span className="relative flex h-2 w-2">
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
@@ -73,7 +73,7 @@ export function PortfolioHero() {
           <motion.div variants={fadeInUp} className="mt-8">
             <Link
               href="/home-search/listings"
-              className="group inline-flex items-center gap-3 rounded-full bg-white px-8 py-4 font-nav text-sm font-semibold uppercase tracking-widest text-black transition-all duration-300 hover:-translate-y-0.5 hover:bg-kw-red hover:text-white hover:shadow-[0_15px_40px_rgba(206,1,31,0.4)]"
+              className="group inline-flex items-center gap-3 rounded-full bg-white px-8 py-4 font-nav text-base font-semibold text-black transition-all duration-300 hover:-translate-y-0.5 hover:bg-kw-red hover:text-white hover:shadow-[0_15px_40px_rgba(206,1,31,0.4)]"
             >
               Search By Map Instead
               <span aria-hidden className="inline-block transition-transform duration-300 group-hover:translate-x-1">
@@ -99,7 +99,7 @@ export function PortfolioHero() {
                 <span className="h-2.5 w-2.5 rounded-full bg-gray-200" />
                 <span className="h-2.5 w-2.5 rounded-full bg-kw-red" />
               </div>
-              <div className="flex items-center gap-2 text-[0.65rem] font-semibold uppercase tracking-widest text-gray-500">
+              <div className="flex items-center gap-2 text-xs font-semibold tracking-wide text-gray-500">
                 <span className="relative flex h-1.5 w-1.5">
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-kw-red opacity-75" />
                   <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-kw-red" />
@@ -111,7 +111,7 @@ export function PortfolioHero() {
             <IDXEmbed idx={ACTIVE_LISTINGS_IDX} title="Active MLS Listings — Cadenhead Realty Group" minHeight={800} />
           </motion.div>
 
-          <p className="mt-6 text-center text-xs uppercase tracking-widest text-gray-400">
+          <p className="mt-6 text-center text-sm tracking-wide text-gray-400">
             Powered directly by NTREIS MLS &mdash; updates automatically, no manual refresh needed.
           </p>
         </div>

@@ -139,13 +139,13 @@ export function AboutStory() {
             className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(206,1,31,0.3)_0%,transparent_45%),radial-gradient(circle_at_80%_70%,rgba(206,1,31,0.3)_0%,transparent_45%)]"
           />
           <div className="relative">
-            <h3 className="font-nav text-3xl uppercase tracking-widest text-white sm:text-4xl">
+            <h3 className="font-nav text-3xl text-white sm:text-4xl">
               Let&apos;s Start Your Real Estate Journey
             </h3>
             <button
               type="button"
               onClick={openContactModal}
-              className="group/cta mt-8 inline-flex items-center gap-3 rounded-full bg-kw-red px-8 py-4 font-nav text-sm font-semibold uppercase tracking-widest text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-kw-red-dark hover:shadow-[0_10px_30px_rgba(206,1,31,0.4)]"
+              className="group/cta mt-8 inline-flex items-center gap-3 rounded-full bg-kw-red px-8 py-4 font-nav text-base font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-kw-red-dark hover:shadow-[0_10px_30px_rgba(206,1,31,0.4)]"
             >
               Let&apos;s Connect
               <span aria-hidden className="inline-block transition-transform duration-300 group-hover/cta:translate-x-1">

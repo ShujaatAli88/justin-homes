@@ -19,7 +19,7 @@ export function ActiveListings() {
     <section className="relative overflow-hidden bg-white py-20 sm:py-28">
       <span
         aria-hidden
-        className="font-nav pointer-events-none absolute -top-6 left-1/2 -translate-x-1/2 select-none whitespace-nowrap text-[8rem] font-bold uppercase leading-none text-gray-50 sm:text-[12rem]"
+        className="font-nav pointer-events-none absolute -top-6 left-1/2 -translate-x-1/2 select-none whitespace-nowrap text-[8rem] font-bold leading-none text-gray-50 sm:text-[12rem]"
       >
         Listings
       </span>
@@ -45,7 +45,7 @@ export function ActiveListings() {
           {highlights.map((h) => (
             <li
               key={h}
-              className="flex items-center gap-2 border border-gray-200 bg-gray-50 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-gray-600"
+              className="flex items-center gap-2 border border-gray-200 bg-gray-50 px-4 py-2 text-sm font-semibold text-gray-600"
             >
               <svg viewBox="0 0 20 20" fill="currentColor" className="h-3.5 w-3.5 text-kw-red">
                 <path d="M16.7 5.3a1 1 0 0 1 0 1.4l-8 8a1 1 0 0 1-1.4 0l-4-4a1 1 0 1 1 1.4-1.4L8 12.6l7.3-7.3a1 1 0 0 1 1.4 0Z" />
@@ -68,7 +68,7 @@ export function ActiveListings() {
               <span className="h-2.5 w-2.5 rounded-full bg-gray-200" />
               <span className="h-2.5 w-2.5 rounded-full bg-kw-red" />
             </div>
-            <div className="flex items-center gap-2 text-[0.65rem] font-semibold uppercase tracking-widest text-gray-500">
+            <div className="flex items-center gap-2 text-xs font-semibold tracking-wide text-gray-500">
               <span className="relative flex h-1.5 w-1.5">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-kw-red opacity-75" />
                 <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-kw-red" />

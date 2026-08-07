@@ -50,7 +50,7 @@ export function IDXEmbed({ idx, title, minHeight = 800 }: IDXEmbedProps) {
           aria-hidden
           className="absolute inset-0 flex flex-col gap-4 bg-gray-50 p-6 sm:p-8"
         >
-          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-gray-400">
+          <div className="flex items-center gap-2 text-sm font-semibold text-gray-400">
             <span className="relative flex h-2 w-2">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-kw-red opacity-75" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-kw-red" />

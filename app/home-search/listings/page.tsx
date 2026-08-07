@@ -29,7 +29,7 @@ export default function HomeSearchPage() {
           className="absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(206,1,31,0.22)_0%,transparent_45%),radial-gradient(circle_at_85%_80%,rgba(206,1,31,0.15)_0%,transparent_45%)]"
         />
         <div className="container-xl relative max-w-2xl">
-          <p className="font-nav text-xs uppercase tracking-[0.3em] text-kw-red">Home Search</p>
+          <p className="font-nav text-sm tracking-wide text-kw-red">Home Search</p>
           <h1 className="mt-4 text-3xl font-bold tracking-tight text-white sm:text-4xl">
             Find Your Next Home
           </h1>
@@ -42,7 +42,7 @@ export default function HomeSearchPage() {
             {highlights.map((h) => (
               <li
                 key={h}
-                className="flex items-center gap-2 border border-white/15 bg-white/5 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white backdrop-blur-sm"
+                className="flex items-center gap-2 border border-white/15 bg-white/5 px-4 py-2 text-sm font-semibold text-white backdrop-blur-sm"
               >
                 <span className="relative flex h-2 w-2">
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
@@ -64,7 +64,7 @@ export default function HomeSearchPage() {
                 <span className="h-2.5 w-2.5 rounded-full bg-gray-200" />
                 <span className="h-2.5 w-2.5 rounded-full bg-kw-red" />
               </div>
-              <div className="flex items-center gap-2 text-[0.65rem] font-semibold uppercase tracking-widest text-gray-500">
+              <div className="flex items-center gap-2 text-xs font-semibold tracking-wide text-gray-500">
                 <span className="relative flex h-1.5 w-1.5">
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-kw-red opacity-75" />
                   <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-kw-red" />
@@ -76,7 +76,7 @@ export default function HomeSearchPage() {
             <IDXEmbed idx={MAP_SEARCH_IDX} title="Map-Based Home Search — Cadenhead Realty Group" minHeight={900} />
           </div>
 
-          <p className="mt-6 text-center text-xs uppercase tracking-widest text-gray-400">
+          <p className="mt-6 text-center text-sm tracking-wide text-gray-400">
             Powered directly by NTREIS MLS &mdash; updates automatically, no manual refresh needed.
           </p>
         </div>

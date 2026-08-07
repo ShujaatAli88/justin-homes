@@ -73,7 +73,7 @@ export function Navbar() {
                 href={item.href}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "font-nav relative py-2 text-sm font-semibold uppercase tracking-widest transition-colors",
+                  "font-nav relative py-2 text-base font-semibold transition-colors",
                   active ? "text-kw-red" : "animated-underline hover:text-kw-red"
                 )}
               >
@@ -103,7 +103,7 @@ export function Navbar() {
 
           <Link
             href="/reviews"
-            className="flex items-center gap-1.5 rounded-full border border-kw-red/40 bg-kw-red/10 px-4 py-2.5 font-nav text-xs font-semibold uppercase tracking-widest text-kw-red transition-all duration-300 hover:scale-105 hover:bg-kw-red hover:text-white"
+            className="flex items-center gap-1.5 rounded-full border border-kw-red/40 bg-kw-red/10 px-4 py-2.5 font-nav text-sm font-semibold text-kw-red transition-all duration-300 hover:scale-105 hover:bg-kw-red hover:text-white"
           >
             <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="currentColor">
               <path d="M12 2.5l3.09 6.26 6.91.99-5 4.87 1.18 6.88L12 17.77l-6.18 3.73L7 14.62l-5-4.87 6.91-.99L12 2.5z" />
@@ -114,7 +114,7 @@ export function Navbar() {
           <button
             type="button"
             onClick={openContactModal}
-            className="group/cta relative flex items-center gap-2 overflow-hidden rounded-full bg-kw-red px-7 py-3 font-nav text-sm font-semibold uppercase tracking-widest text-white shadow-[0_8px_24px_rgba(206,1,31,0.35)] transition-all duration-300 hover:scale-105 hover:shadow-[0_12px_32px_rgba(206,1,31,0.5)]"
+            className="group/cta relative flex items-center gap-2 overflow-hidden rounded-full bg-kw-red px-7 py-3 font-nav text-base font-semibold text-white shadow-[0_8px_24px_rgba(206,1,31,0.35)] transition-all duration-300 hover:scale-105 hover:shadow-[0_12px_32px_rgba(206,1,31,0.5)]"
           >
             <span
               aria-hidden
