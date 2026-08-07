@@ -96,7 +96,7 @@ export function MeetAgent() {
                 <span aria-hidden className="h-px w-10 bg-kw-red" />
                 <span className="text-sm font-semibold tracking-wide text-gray-300">Meet</span>
               </div>
-              <h2 className="font-nav mt-3 text-2xl text-white sm:text-3xl lg:text-4xl">
+              <h2 className="font-nav mt-3 whitespace-nowrap text-[clamp(0.95rem,4vw,1.5rem)] text-white">
                 Justin Cadenhead Realty
               </h2>
             </div>
