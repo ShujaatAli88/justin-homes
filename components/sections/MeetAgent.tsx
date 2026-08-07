@@ -75,8 +75,8 @@ export function MeetAgent() {
 
           <div className="group relative z-10 aspect-[4/5] w-full max-w-md overflow-hidden lg:max-w-none">
             <SmartImage
-              src={agent.headshot}
-              alt={agent.name}
+              src="/images/agent/abby_and_justin.jpeg"
+              alt="Abby and Justin Cadenhead"
               label="Agent headshot"
               className="transition-transform duration-700 ease-out group-hover:scale-105"
             />
@@ -97,7 +97,7 @@ export function MeetAgent() {
                 <span className="text-sm font-semibold tracking-wide text-gray-300">Meet</span>
               </div>
               <h2 className="font-nav mt-3 text-2xl text-white sm:text-3xl lg:text-4xl">
-                {agent.name}
+                Justin Cadenhead Realty
               </h2>
             </div>
           </div>

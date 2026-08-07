@@ -80,10 +80,10 @@ export function Hero() {
             {SUBLINE}
           </motion.p>
           <motion.div variants={fadeInUp} className="mt-10 flex flex-wrap items-center justify-center gap-4">
-            <Button href="/home-search/listings" variant="pill" size="lg">
+            <Button href="/home-search/listings" variant="pill" size="md">
               Search Homes
             </Button>
-            <Button href="/home-valuation" variant="pill" size="lg">
+            <Button href="/home-valuation" variant="pill" size="md">
               What&apos;s My Home Worth?
             </Button>
           </motion.div>
