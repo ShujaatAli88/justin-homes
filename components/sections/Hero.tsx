@@ -69,7 +69,7 @@ export function Hero() {
         >
           <motion.h1
             variants={fadeInUp}
-            className="text-4xl font-extrabold uppercase leading-[1.15] tracking-wide [text-shadow:0_4px_24px_rgba(0,0,0,0.9),0_1px_4px_rgba(0,0,0,0.9)] sm:text-6xl lg:text-7xl"
+            className="whitespace-nowrap text-[clamp(0.9rem,5vw,3rem)] font-extrabold uppercase leading-[1.15] tracking-normal [text-shadow:0_4px_24px_rgba(0,0,0,0.9),0_1px_4px_rgba(0,0,0,0.9)]"
           >
             {HEADLINE_WHITE} <span className="text-kw-red">{HEADLINE_ACCENT}</span>
           </motion.h1>
