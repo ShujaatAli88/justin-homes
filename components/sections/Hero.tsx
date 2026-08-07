@@ -9,8 +9,8 @@ import { isPlaceholder } from "@/lib/utils";
 const HERO_VIDEO_SRC = "/video/hero.mp4";
 const HERO_POSTER_SRC = "{{HERO_POSTER}}"; // TODO(client): static fallback frame for the hero video
 
-const HEADLINE_WHITE = "Brown County Real Estate,";
-const HEADLINE_ACCENT = "Elevated";
+const HEADLINE_WHITE = "Let's Find Your";
+const HEADLINE_ACCENT = "Dream Home";
 // TODO(client): confirm exact areas served list (mirrors the suggested, unconfirmed
 // starter list in data/neighborhoods.ts) before this goes live.
 const SUBLINE = ""
